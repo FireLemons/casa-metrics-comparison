@@ -72,10 +72,17 @@ const app = new Vue({
         }
       })
 
-      localStorage.getItem('metrics', JSON.stringify({orgs: this.orgs, global: this.global}))
+      localStorage.setItem('metrics', JSON.stringify({orgs: this.orgs, global: this.global}))
     }
   },
   mounted: function() {
+    const savedData = JSON.parse(localStorage.getItem('metrics'))
+
+    if (savedData) {
+      this.orgs = savedData.orgs
+      this.global = savedData.global
+    }
+
     getJSON('https://data.heroku.com/dataclips/idfolumrbaubogbmewdoeyahhdtj.json', (data) => {
       data.values.forEach((val) => {
         let orgName
