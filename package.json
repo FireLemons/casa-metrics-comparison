@@ -11,5 +11,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/FireLemons/casa-metrics-comparison.git"
+  },
+  "dependencies": {
+    "sass": "^1.32.12"
   }
 }

@@ -1,0 +1,23 @@
+body {
+  background-color: #222;
+  color: #ef6c00;
+  text-align: center;
+}
+body h2 {
+  margin: 0;
+}
+body #global-table {
+  background-color: #444;
+  margin: 0.5em auto;
+  padding: 1em;
+  width: max-content;
+}
+body #org-tables {
+  display: flex;
+  justify-content: center;
+}
+body #org-tables > div {
+  background-color: #444;
+  margin: 0.5em;
+  padding: 1em;
+}

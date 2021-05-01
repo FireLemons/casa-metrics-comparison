@@ -1,0 +1,27 @@
+body {
+  background-color: #222;
+  color: #ef6c00;
+  text-align: center;
+
+  h2 {
+    margin: 0;
+  }
+
+  #global-table {
+    background-color: #444;
+    margin: 0.5em auto;
+    padding: 1em;
+    width: max-content;
+  }
+
+  #org-tables {
+    display: flex;
+    justify-content: center;
+
+    &>div{
+      background-color: #444;
+      margin: 0.5em;
+      padding: 1em;
+    }
+  }
+}
