@@ -2,7 +2,7 @@ function makeDiff (stats) {
   const diff = {}
 
   for (label in stats) {
-    diff[label] = Math.round(stats[label].newValue - stats[label].savedValue)
+    diff[label] = stats[label].newValue - stats[label].savedValue
   }
 
   return diff
@@ -66,6 +66,12 @@ const app = new Vue({
   },
   methods: {
     save: function () {
+      [this.orgs['Prince George'], this.orgs['Montgomery'], this.global].forEach((stats) => {
+        for(stat in stats) {
+          stats[stat].savedValue = stats[stat].newValue
+        }
+      })
+
       localStorage.getItem('metrics', JSON.stringify({orgs: this.orgs, global: this.global}))
     }
   },
@@ -176,7 +182,7 @@ const app = new Vue({
 
     getJSON('https://data.heroku.com/dataclips/vgblwvzhclatsdxzdbihypqulckq.json', (data) => {
       data.values.forEach((val) => {
-        this.global['Total Hours in Case Contacts'].newValue = val[0]
+        this.global['Total Hours in Case Contacts'].newValue = Math.round(val[0])
       })
 
       console.log('Loaded Total Hours in Case Contacts')
