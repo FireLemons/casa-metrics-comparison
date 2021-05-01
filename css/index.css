@@ -7,6 +7,18 @@ body #app {
   width: max-content;
   margin: 0 auto;
 }
+body #app button {
+  background-color: #444;
+  border: 0;
+  color: #ef6c00;
+  cursor: pointer;
+  font-size: 24pt;
+  padding: 0.5rem;
+  width: calc(100% - 1rem);
+}
+body #app button:hover {
+  background-color: #555;
+}
 body #app h2 {
   border-bottom: 2px solid #ef6c00;
   margin: 0;
