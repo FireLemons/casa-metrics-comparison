@@ -13,6 +13,16 @@ body {
       margin-bottom: 1rem;
     }
 
+    span {
+      &.green {
+        color: #00c853;
+      }
+
+      &.red {
+        color: #f44336;
+      }
+    }
+
     table {
       border-collapse: collapse;
     }

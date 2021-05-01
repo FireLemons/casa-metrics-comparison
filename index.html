@@ -10,6 +10,7 @@
   </head>
   <body>
     <div id="app">
+      <h1>Open the console to check if all the data loaded</h1>
       <div id="org-tables">
         <div v-for="(orgStats, orgName) in orgs">
           <h2>{{ orgName }}</h2>
@@ -18,7 +19,15 @@
               <tr>
                 <tr v-for="(stat, label) in orgStats">
                   <td>{{ label }}</td>
-                  <td>{{ stat.savedValue }}<span v-if="diffs.orgs[orgName][label] !== 0"> ({{ (diffs.orgs[orgName][label] < 0 ? "" : "+") + diffs.orgs[orgName][label] }})</span></td>
+                  <td>
+                    {{ stat.savedValue }}
+                    <span
+                      :class="diffs.orgs[orgName][label] < 0 ? 'red' : 'green'"
+                      v-if="diffs.orgs[orgName][label] !== 0">
+
+                      ({{ (diffs.orgs[orgName][label] < 0 ? "" : "+") + diffs.orgs[orgName][label] }})
+                    </span>
+                  </td>
                 </tr>
               </tr>
             </tbody>

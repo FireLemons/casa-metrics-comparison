@@ -12,6 +12,12 @@ body #app h2 {
   margin: 0;
   margin-bottom: 1rem;
 }
+body #app span.green {
+  color: #00c853;
+}
+body #app span.red {
+  color: #f44336;
+}
 body #app table {
   border-collapse: collapse;
 }
