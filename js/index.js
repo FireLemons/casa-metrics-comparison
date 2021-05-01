@@ -2,7 +2,7 @@ function makeDiff (stats) {
   const diff = {}
 
   for (label in stats) {
-    diff[label] = stats[label].newValue - stats[label].savedValue
+    diff[label] = Math.round(stats[label].newValue - stats[label].savedValue)
   }
 
   return diff
@@ -29,7 +29,7 @@ const app = new Vue({
     orgs: {
       'Prince George': {
         'Accepted Invitations'              : { savedValue: 0, newValue: 0},
-        'Unccepted Invitations'             : { savedValue: 0, newValue: 0},
+        'Unaccepted Invitations'            : { savedValue: 0, newValue: 0},
         'Cases With Mandates'               : { savedValue: 0, newValue: 0},
         'Case Contact Count'                : { savedValue: 0, newValue: 0},
         'Notification Count'                : { savedValue: 0, newValue: 0},
@@ -37,7 +37,7 @@ const app = new Vue({
       }, 
       'Montgomery': {
         'Accepted Invitations'              : { savedValue: 0, newValue: 0},
-        'Unccepted Invitations'             : { savedValue: 0, newValue: 0},
+        'Unaccepted Invitations'            : { savedValue: 0, newValue: 0},
         'Cases With Mandates'               : { savedValue: 0, newValue: 0},
         'Case Contact Count'                : { savedValue: 0, newValue: 0},
         'Notification Count'                : { savedValue: 0, newValue: 0},
@@ -54,8 +54,6 @@ const app = new Vue({
       const MontgomeryDiff = makeDiff(this.orgs['Montgomery'])
       const globalDiff = makeDiff(this.global)
 
-      console.log(PGDiff)
-
       return {
         orgs: {
           'Prince George': PGDiff,
@@ -71,7 +69,7 @@ const app = new Vue({
     }
   },
   mounted: function() {
-    getJSON("https://data.heroku.com/dataclips/idfolumrbaubogbmewdoeyahhdtj.json", (data) => {
+    getJSON('https://data.heroku.com/dataclips/idfolumrbaubogbmewdoeyahhdtj.json', (data) => {
       data.values.forEach((val) => {
         let orgName
 
@@ -88,6 +86,100 @@ const app = new Vue({
       })
 
       console.log('Loaded Case Contact Counts')
+    })
+
+    getJSON('https://data.heroku.com/dataclips/ymbdlyldhiiqcmsslbjfjdjmzwco.json', (data) => {
+      data.values.forEach((val) => {
+        let orgName
+
+        switch (val[0]) {
+          case 1:
+            orgName = 'Prince George'
+            break
+          case 2:
+            orgName = 'Montgomery'
+            break
+        }
+
+        this.orgs[orgName]['Volunteers Assigned to Supervisors'].newValue = val[1]
+      })
+
+      console.log('Loaded Volunteers Assigned to Supervisors Count')
+    })
+
+    getJSON('https://data.heroku.com/dataclips/xsikhducnqfdrmfcntvdhtehuuwp.json', (data) => {
+      data.values.forEach((val) => {
+        let orgName
+
+        switch (val[0]) {
+          case 1:
+            orgName = 'Prince George'
+            break
+          case 2:
+            orgName = 'Montgomery'
+            break
+        }
+
+        this.orgs[orgName]['Notification Count'].newValue = val[1]
+      })
+
+      console.log('Loaded Notification Count')
+    })
+
+    getJSON('https://data.heroku.com/dataclips/fairemyutljnkjgwldlaqtpecvvt.json', (data) => {
+      data.values.forEach((val) => {
+        let orgName
+
+        switch (val[0]) {
+          case 1:
+            orgName = 'Prince George'
+            break
+          case 2:
+            orgName = 'Montgomery'
+            break
+        }
+
+        this.orgs[orgName]['Cases With Mandates'].newValue = val[1]
+      })
+
+      console.log('Loaded Cases With Mandates Count')
+    })
+
+    getJSON('https://data.heroku.com/dataclips/ibzctyhepsfsgpiobxrltuhejxds.json', (data) => {
+      data.values.forEach((val) => {
+        let orgName, orgStat
+
+        switch (val[0]) {
+          case 1:
+            orgName = 'Prince George'
+            break
+          case 2:
+            orgName = 'Montgomery'
+            break
+        }
+
+        switch (val[1]) {
+          case true:
+            orgStat = 'Accepted Invitations'
+            break
+          case false:
+            orgStat = 'Unaccepted Invitations'
+            break
+        }
+
+        this.orgs[orgName][orgStat].newValue = val[2]
+      })
+
+      console.log('Loaded Accepted/Unaccepted Invitations')
+    })
+
+    getJSON('https://data.heroku.com/dataclips/vgblwvzhclatsdxzdbihypqulckq.json', (data) => {
+      console.log(data.values)
+      data.values.forEach((val) => {
+        this.global['Total Hours in Case Contacts'].newValue = val[0]
+      })
+
+      console.log('Loaded Total Hours in Case Contacts')
     })
   }
 })

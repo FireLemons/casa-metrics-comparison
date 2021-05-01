@@ -40,7 +40,15 @@
           <tbody>
             <tr v-for="(stat, label) in global">
               <td>{{ label }}</td>
-              <td>{{ stat.savedValue }}</td>
+              <td>
+                {{ stat.savedValue }}
+                <span
+                  :class="diffs.global[label] < 0 ? 'red' : 'green'"
+                  v-if="diffs.global[label] !== 0">
+
+                  ({{ (diffs.global[label] < 0 ? "" : "+") + diffs.global[label] }})
+                </span>
+              </td>
             </tr>
           </tbody>
         </table>
