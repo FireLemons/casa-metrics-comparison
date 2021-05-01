@@ -3,25 +3,53 @@ body {
   color: #ef6c00;
   text-align: center;
 
-  h2 {
-    margin: 0;
-  }
-
-  #global-table {
-    background-color: #444;
-    margin: 0.5em auto;
-    padding: 1em;
+  #app {
     width: max-content;
-  }
+    margin: 0 auto;
 
-  #org-tables {
-    display: flex;
-    justify-content: center;
+    h2 {
+      border-bottom: 2px solid #ef6c00;
+      margin: 0;
+      margin-bottom: 1rem;
+    }
 
-    &>div{
+    table {
+      border-collapse: collapse;
+    }
+
+    td {
+      padding: 0.5rem 1rem;
+      text-align: left;
+
+      &:first-child {
+        border-right: 2px solid #ef6c00;
+      }
+    }
+
+    #global-table {
       background-color: #444;
-      margin: 0.5em;
+      margin: 0.5em auto;
       padding: 1em;
+      width: calc(100% - 3rem);
+
+      table {
+        width: 100%;
+
+        td:first-child {
+          width: auto;
+        }
+      }
+    }
+
+    #org-tables {
+      display: flex;
+      justify-content: center;
+
+      &>div{
+        background-color: #444;
+        margin: 0.5rem;
+        padding: 1rem;
+      }
     }
   }
 }

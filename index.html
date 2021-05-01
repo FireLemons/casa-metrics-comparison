@@ -2,6 +2,9 @@
 <html>
   <head>
     <title>CASA prod metrics</title>
+    <link rel="icon" type="image/png" href="img/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="img/favicon-96x96.png" sizes="96x96">
     <link rel="stylesheet" href="css/index.css">
     <script src="js/vue.min.js"></script>
   </head>
@@ -13,8 +16,10 @@
           <table>
             <tbody>
               <tr>
-                <td></td>
-                <td></td>
+                <tr v-for="(stat, label) in orgs[0]">
+                  <td>{{ label }}</td>
+                  <td>{{ stat[1] }}</td>
+                </tr>
               </tr>
             </tbody>
           </table>
@@ -24,8 +29,10 @@
           <table>
             <tbody>
               <tr>
-                <td></td>
-                <td></td>
+                <tr v-for="(stat, label) in orgs[1]">
+                  <td>{{ label }}</td>
+                  <td>{{ stat[1] }}</td>
+                </tr>
               </tr>
             </tbody>
           </table>
@@ -35,9 +42,9 @@
         <h2>Global Stats</h2>
         <table>
           <tbody>
-            <tr>
-              <td></td>
-              <td></td>
+            <tr v-for="(stat, label) in global">
+              <td>{{ label }}</td>
+              <td>{{ stat[1] }}</td>
             </tr>
           </tbody>
         </table>

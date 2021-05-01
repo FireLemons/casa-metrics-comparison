@@ -3,21 +3,43 @@ body {
   color: #ef6c00;
   text-align: center;
 }
-body h2 {
-  margin: 0;
+body #app {
+  width: max-content;
+  margin: 0 auto;
 }
-body #global-table {
+body #app h2 {
+  border-bottom: 2px solid #ef6c00;
+  margin: 0;
+  margin-bottom: 1rem;
+}
+body #app table {
+  border-collapse: collapse;
+}
+body #app td {
+  padding: 0.5rem 1rem;
+  text-align: left;
+}
+body #app td:first-child {
+  border-right: 2px solid #ef6c00;
+}
+body #app #global-table {
   background-color: #444;
   margin: 0.5em auto;
   padding: 1em;
-  width: max-content;
+  width: calc(100% - 3rem);
 }
-body #org-tables {
+body #app #global-table table {
+  width: 100%;
+}
+body #app #global-table table td:first-child {
+  width: auto;
+}
+body #app #org-tables {
   display: flex;
   justify-content: center;
 }
-body #org-tables > div {
+body #app #org-tables > div {
   background-color: #444;
-  margin: 0.5em;
-  padding: 1em;
+  margin: 0.5rem;
+  padding: 1rem;
 }
