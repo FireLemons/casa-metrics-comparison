@@ -66,6 +66,7 @@ const app = new Vue({
   },
   methods: {
     save: function () {
+      localStorage.getItem('metrics', JSON.stringify({orgs: this.orgs, global: this.global}))
     }
   },
   mounted: function() {
@@ -174,7 +175,6 @@ const app = new Vue({
     })
 
     getJSON('https://data.heroku.com/dataclips/vgblwvzhclatsdxzdbihypqulckq.json', (data) => {
-      console.log(data.values)
       data.values.forEach((val) => {
         this.global['Total Hours in Case Contacts'].newValue = val[0]
       })
