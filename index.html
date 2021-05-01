@@ -11,27 +11,14 @@
   <body>
     <div id="app">
       <div id="org-tables">
-        <div>
-          <h2>Prince George</h2>
+        <div v-for="(orgStats, orgName) in orgs">
+          <h2>{{ orgName }}</h2>
           <table>
             <tbody>
               <tr>
-                <tr v-for="(stat, label) in orgs[0]">
+                <tr v-for="(stat, label) in orgStats">
                   <td>{{ label }}</td>
-                  <td>{{ stat[1] }}</td>
-                </tr>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div>
-          <h2>Montgomery</h2>
-          <table>
-            <tbody>
-              <tr>
-                <tr v-for="(stat, label) in orgs[1]">
-                  <td>{{ label }}</td>
-                  <td>{{ stat[1] }}</td>
+                  <td>{{ stat.savedValue }}<span v-if="diffs.orgs[orgName][label] !== 0"> ({{ (diffs.orgs[orgName][label] < 0 ? "" : "+") + diffs.orgs[orgName][label] }})</span></td>
                 </tr>
               </tr>
             </tbody>
@@ -44,7 +31,7 @@
           <tbody>
             <tr v-for="(stat, label) in global">
               <td>{{ label }}</td>
-              <td>{{ stat[1] }}</td>
+              <td>{{ stat.savedValue }}</td>
             </tr>
           </tbody>
         </table>
