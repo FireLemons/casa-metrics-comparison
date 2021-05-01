@@ -40,6 +40,13 @@ body #app td {
 body #app td:first-child {
   border-right: 2px solid #ef6c00;
 }
+body #app textarea {
+  background-color: #444;
+  border: 0;
+  color: #ef6c00;
+  padding: 1rem;
+  width: calc(100% - 3rem);
+}
 body #app #global-table {
   background-color: #444;
   margin: 0.5em auto;

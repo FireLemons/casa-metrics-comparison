@@ -53,7 +53,11 @@
           </tbody>
         </table>
       </div>
-      <button @click="save">Save to localstorage</button>
+      <button @click="save">Update(to localstorage)</button>
+      <h1>Backup Script</h1>
+      <p>(paste into console on the page)</p>
+      <textarea readonly v-model="backup"></textarea>
+      <button @click="download">Download Backup</button>
     </div>
   </body>
   <script src="js/index.js"></script>

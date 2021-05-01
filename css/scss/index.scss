@@ -50,6 +50,14 @@ body {
       }
     }
 
+    textarea {
+      background-color: #444;
+      border: 0;
+      color: #ef6c00;
+      padding: 1rem;
+      width: calc(100% - 3rem);
+    }
+
     #global-table {
       background-color: #444;
       margin: 0.5em auto;

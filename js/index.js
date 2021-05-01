@@ -1,11 +1,12 @@
-function makeDiff (stats) {
-  const diff = {}
+function downloadToFile(content, filename, contentType) {
+  const a = document.createElement('a');
+  const file = new Blob([content], {type: contentType});
 
-  for (label in stats) {
-    diff[label] = stats[label].newValue - stats[label].savedValue
-  }
+  a.href= URL.createObjectURL(file);
+  a.download = filename;
+  a.click();
 
-  return diff
+	URL.revokeObjectURL(a.href);
 }
 
 function getJSON (url, callback) {
@@ -21,6 +22,16 @@ function getJSON (url, callback) {
 
   request.open("get", url, true);
   request.send();
+}
+
+function makeDiff (stats) {
+  const diff = {}
+
+  for (label in stats) {
+    diff[label] = stats[label].newValue - stats[label].savedValue
+  }
+
+  return diff
 }
 
 const app = new Vue({
@@ -49,6 +60,12 @@ const app = new Vue({
     }
   },
   computed: {
+    backup: function () {
+      const textarea = document.querySelector('textarea')
+      textarea.style.height = textarea.scrollHeight+'px'
+      return `localStorage.setItem('metrics', JSON.stringify(${JSON.stringify({orgs: this.orgs, global: this.global}, null, 2)}))`
+    },
+
     diffs: function () {
       const PGDiff = makeDiff(this.orgs['Prince George'])
       const MontgomeryDiff = makeDiff(this.orgs['Montgomery'])
@@ -65,6 +82,9 @@ const app = new Vue({
     }
   },
   methods: {
+    download: function () {
+      downloadToFile(this.backup, 'backup.js', 'text/plain');
+    },
     save: function () {
       [this.orgs['Prince George'], this.orgs['Montgomery'], this.global].forEach((stats) => {
         for(stat in stats) {
