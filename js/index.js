@@ -235,6 +235,9 @@ const app = new Vue({
         this.orgs[orgName]['Users Who Have Added Case Contacts in Last 2 Weeks'].newValue = val[1]
         this.orgs[orgName]['Case Contact Count in Last 2 Weeks'].newValue = val[2]
       })
+
+      console.log('Loaded Users Who Have Added Case Contacts in Last 2 Weeks')
+      console.log('Loaded Case Contact Count in Last 2 Weeks')
     })
   }
 })
