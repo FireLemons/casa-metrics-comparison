@@ -103,8 +103,11 @@ const app = new Vue({
     const savedData = JSON.parse(localStorage.getItem('metrics'))
 
     if (savedData) {
-      this.orgs = savedData.orgs
-      this.global = savedData.global
+      for (orgName in this.orgs) {
+        this.orgs[orgName] = Object.assign(this.orgs[orgName], savedData.orgs[orgName])
+      }
+
+      this.global = Object.assign(this.global, savedData.global)
     }
 
     getJSON('https://data.heroku.com/dataclips/idfolumrbaubogbmewdoeyahhdtj.json', (data) => {
