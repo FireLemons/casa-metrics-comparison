@@ -1,3 +1,7 @@
+:root {
+  --main-color: #ff9800;
+}
+
 @font-face {
   font-family: "Ubuntu Mono";
   font-style: normal;
@@ -6,7 +10,7 @@
 }
 body {
   background-color: #222;
-  color: #ef6c00;
+  color: var(--main-color);
   text-align: center;
 }
 body #app {
@@ -16,7 +20,7 @@ body #app {
 body #app button {
   background-color: #444;
   border: 0;
-  color: #ef6c00;
+  color: var(--main-color);
   cursor: pointer;
   font-size: 24pt;
   padding: 0.5rem;
@@ -26,7 +30,7 @@ body #app button:hover {
   background-color: #555;
 }
 body #app h2 {
-  border-bottom: 2px solid #ef6c00;
+  border-bottom: 2px solid var(--main-color);
   margin: 0;
   margin-bottom: 1rem;
 }
@@ -40,16 +44,17 @@ body #app table {
   border-collapse: collapse;
 }
 body #app td {
+  font-weight: bold;
   padding: 0.5rem 1rem;
   text-align: left;
 }
 body #app td:first-child {
-  border-right: 2px solid #ef6c00;
+  border-right: 2px solid var(--main-color);
 }
 body #app textarea {
   background-color: #444;
   border: 0;
-  color: #ef6c00;
+  color: var(--main-color);
   font-family: "Ubuntu Mono";
   padding: 1rem;
   width: calc(100% - 3rem);
