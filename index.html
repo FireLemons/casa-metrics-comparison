@@ -13,15 +13,15 @@
       <h1>Javascript Required</h1>
     </noscript>
     <div id="app">
-      <h1>Open the console to check if all the data loaded</h1>
+      <h1>Open the console to see load errors</h1>
       <div id="org-tables">
         <div v-for="(orgStats, orgName) in orgs">
           <h2>{{ orgName }}</h2>
           <table>
             <tbody>
               <tr>
-                <tr v-for="(stat, label) in orgStats">
-                  <td>{{ label }}</td>
+                <tr v-for="(stat, label) in orgStats" :class="queries[label]">
+                  <td >{{ label }}</td>
                   <td>
                     {{ stat.savedValue }}
                     <span
@@ -41,7 +41,7 @@
         <h2>Global Stats</h2>
         <table>
           <tbody>
-            <tr v-for="(stat, label) in global">
+            <tr v-for="(stat, label) in global" :class="queries[label]">
               <td>{{ label }}</td>
               <td>
                 {{ stat.savedValue }}

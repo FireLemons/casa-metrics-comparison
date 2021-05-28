@@ -39,28 +39,39 @@ const app = new Vue({
   data: {
     orgs: {
       'Prince George': {
-        'Accepted Invitations'                              : { savedValue: 0, newValue: 0},
-        'Unaccepted Invitations'                            : { savedValue: 0, newValue: 0},
-        'Cases With Mandates'                               : { savedValue: 0, newValue: 0},
-        'Case Contact Count'                                : { savedValue: 0, newValue: 0},
-        'Case Contact Count in Last 2 Weeks'                : { savedValue: 0, newValue: 0},
-        'Users Who Have Added Case Contacts in Last 2 Weeks': { savedValue: 0, newValue: 0},
-        'Notification Count'                                : { savedValue: 0, newValue: 0},
-        'Volunteers Assigned to Supervisors'                : { savedValue: 0, newValue: 0}
+        'Accepted Invitations'                              : {savedValue: 0, newValue: 0},
+        'Unaccepted Invitations'                            : {savedValue: 0, newValue: 0},
+        'Cases With Mandates'                               : {savedValue: 0, newValue: 0},
+        'Case Contact Count'                                : {savedValue: 0, newValue: 0},
+        'Case Contact Count in Last 2 Weeks'                : {savedValue: 0, newValue: 0},
+        'Users Who Have Added Case Contacts in Last 2 Weeks': {savedValue: 0, newValue: 0},
+        'Notification Count'                                : {savedValue: 0, newValue: 0},
+        'Volunteers Assigned to Supervisors'                : {savedValue: 0, newValue: 0}
       }, 
       'Montgomery': {
-        'Accepted Invitations'                              : { savedValue: 0, newValue: 0},
-        'Unaccepted Invitations'                            : { savedValue: 0, newValue: 0},
-        'Cases With Mandates'                               : { savedValue: 0, newValue: 0},
-        'Case Contact Count'                                : { savedValue: 0, newValue: 0},
-        'Case Contact Count in Last 2 Weeks'                : { savedValue: 0, newValue: 0},
-        'Users Who Have Added Case Contacts in Last 2 Weeks': { savedValue: 0, newValue: 0},
-        'Notification Count'                                : { savedValue: 0, newValue: 0},
-        'Volunteers Assigned to Supervisors'                : { savedValue: 0, newValue: 0}
+        'Accepted Invitations'                              : {savedValue: 0, newValue: 0},
+        'Unaccepted Invitations'                            : {savedValue: 0, newValue: 0},
+        'Cases With Mandates'                               : {savedValue: 0, newValue: 0},
+        'Case Contact Count'                                : {savedValue: 0, newValue: 0},
+        'Case Contact Count in Last 2 Weeks'                : {savedValue: 0, newValue: 0},
+        'Users Who Have Added Case Contacts in Last 2 Weeks': {savedValue: 0, newValue: 0},
+        'Notification Count'                                : {savedValue: 0, newValue: 0},
+        'Volunteers Assigned to Supervisors'                : {savedValue: 0, newValue: 0}
       }
     },
     global: {
       'Total Hours in Case Contacts': { savedValue: 0, newValue: 0}
+    },
+    queries: {
+      'Accepted Invitations'                              : 'unloaded',
+      'Unaccepted Invitations'                            : 'unloaded',
+      'Cases With Mandates'                               : 'unloaded',
+      'Case Contact Count'                                : 'unloaded',
+      'Case Contact Count in Last 2 Weeks'                : 'unloaded',
+      'Users Who Have Added Case Contacts in Last 2 Weeks': 'unloaded',
+      'Notification Count'                                : 'unloaded',
+      'Total Hours in Case Contacts'                      : 'unloaded',
+      'Volunteers Assigned to Supervisors'                : 'unloaded'
     }
   },
   computed: {
@@ -111,6 +122,8 @@ const app = new Vue({
     }
 
     getJSON('https://data.heroku.com/dataclips/idfolumrbaubogbmewdoeyahhdtj.json', (data) => {
+      const queryName = 'Case Contact Count'
+
       data.values.forEach((val) => {
         let orgName
 
@@ -123,13 +136,17 @@ const app = new Vue({
             break
         }
 
-        this.orgs[orgName]['Case Contact Count'].newValue = val[1]
+        if (orgName) {
+          this.orgs[orgName][queryName].newValue = val[1]
+        }
       })
 
-      console.log('Loaded Case Contact Counts')
+      this.queries[queryName] = 'loaded'
     })
 
     getJSON('https://data.heroku.com/dataclips/ymbdlyldhiiqcmsslbjfjdjmzwco.json', (data) => {
+      const queryName = 'Volunteers Assigned to Supervisors'
+
       data.values.forEach((val) => {
         let orgName
 
@@ -142,13 +159,17 @@ const app = new Vue({
             break
         }
 
-        this.orgs[orgName]['Volunteers Assigned to Supervisors'].newValue = val[1]
+        if (orgName) {
+          this.orgs[orgName][queryName].newValue = val[1]
+        }
       })
 
-      console.log('Loaded Volunteers Assigned to Supervisors Count')
+      this.queries[queryName] = 'loaded'
     })
 
     getJSON('https://data.heroku.com/dataclips/xsikhducnqfdrmfcntvdhtehuuwp.json', (data) => {
+      const queryName = 'Notification Count'
+
       data.values.forEach((val) => {
         let orgName
 
@@ -161,13 +182,15 @@ const app = new Vue({
             break
         }
 
-        this.orgs[orgName]['Notification Count'].newValue = val[1]
+        this.orgs[orgName][queryName].newValue = val[1]
       })
 
-      console.log('Loaded Notification Count')
+      this.queries[queryName] = 'loaded'
     })
 
     getJSON('https://data.heroku.com/dataclips/fairemyutljnkjgwldlaqtpecvvt.json', (data) => {
+      const queryName = 'Cases With Mandates'
+
       data.values.forEach((val) => {
         let orgName
 
@@ -180,10 +203,10 @@ const app = new Vue({
             break
         }
 
-        this.orgs[orgName]['Cases With Mandates'].newValue = val[1]
+        this.orgs[orgName][queryName].newValue = val[1]
       })
 
-      console.log('Loaded Cases With Mandates Count')
+      this.queries[queryName] = 'loaded'
     })
 
     getJSON('https://data.heroku.com/dataclips/ibzctyhepsfsgpiobxrltuhejxds.json', (data) => {
@@ -208,18 +231,23 @@ const app = new Vue({
             break
         }
 
-        this.orgs[orgName][orgStat].newValue = val[2]
+        if (orgName) {
+          this.orgs[orgName][orgStat].newValue = val[2]
+        }
       })
 
-      console.log('Loaded Accepted/Unaccepted Invitations')
+      this.queries['Accepted Invitations'] = 'loaded'
+      this.queries['Unaccepted Invitations'] = 'loaded'
     })
 
     getJSON('https://data.heroku.com/dataclips/vgblwvzhclatsdxzdbihypqulckq.json', (data) => {
+      const queryName = 'Total Hours in Case Contacts'
+
       data.values.forEach((val) => {
-        this.global['Total Hours in Case Contacts'].newValue = Math.round(val[0])
+        this.global[queryName].newValue = Math.round(val[0])
       })
 
-      console.log('Loaded Total Hours in Case Contacts')
+      this.queries[queryName] = 'loaded'
     })
 
     getJSON('https://data.heroku.com/dataclips/ahvopfhogmvuccdzdnncmwlioidd.json', (data) => {
@@ -235,12 +263,14 @@ const app = new Vue({
             break
         }
 
-        this.orgs[orgName]['Users Who Have Added Case Contacts in Last 2 Weeks'].newValue = val[1]
-        this.orgs[orgName]['Case Contact Count in Last 2 Weeks'].newValue = val[2]
+        if (orgName) {
+          this.orgs[orgName]['Users Who Have Added Case Contacts in Last 2 Weeks'].newValue = val[1]
+          this.orgs[orgName]['Case Contact Count in Last 2 Weeks'].newValue = val[2]
+        }
       })
 
-      console.log('Loaded Users Who Have Added Case Contacts in Last 2 Weeks')
-      console.log('Loaded Case Contact Count in Last 2 Weeks')
+      this.queries['Users Who Have Added Case Contacts in Last 2 Weeks'] = 'loaded'
+      this.queries['Case Contact Count in Last 2 Weeks'] = 'loaded'
     })
   }
 })

@@ -59,6 +59,9 @@ body #app textarea {
   padding: 1rem;
   width: calc(100% - 3rem);
 }
+body #app tr.unloaded {
+  color: #8f5e14;
+}
 body #app #global-table {
   background-color: #444;
   margin: 0.5em auto;

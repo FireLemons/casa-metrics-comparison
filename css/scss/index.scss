@@ -60,10 +60,6 @@ body {
       &:first-child {
         border-right: 2px solid var(--main-color);
       }
-
-      &.unloaded {
-      
-      }
     }
 
     textarea {
@@ -73,6 +69,10 @@ body {
       font-family: "Ubuntu Mono";
       padding: 1rem;
       width: calc(100% - 3rem);
+    }
+
+    tr.unloaded {
+      color: #8f5e14;
     }
 
     #global-table {
