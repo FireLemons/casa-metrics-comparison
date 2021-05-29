@@ -15,23 +15,21 @@
     <div id="app">
       <h1>Open the console to see load errors</h1>
       <div id="org-tables">
-        <div v-for="(orgStats, orgName) in orgs">
-          <h2>{{ orgName }}</h2>
+        <div v-for="org in orgs">
+          <h2>{{ org.name }}</h2>
           <table>
             <tbody>
-              <tr>
-                <tr v-for="(stat, label) in orgStats" :class="queries[label]">
-                  <td >{{ label }}</td>
-                  <td>
-                    {{ stat.savedValue }}
-                    <span
-                      :class="diffs.orgs[orgName][label] < 0 ? 'red' : 'green'"
-                      v-if="diffs.orgs[orgName][label] !== 0">
+              <tr v-for="(stat, label) in org.metrics" :class="queries[label]">
+                <td >{{ label }}</td>
+                <td>
+                  {{ stat.savedValue }}
+                  <span
+                    :class="diffs.orgs[org.name][label] < 0 ? 'red' : 'green'"
+                    v-if="diffs.orgs[org.name][label] !== 0">
 
-                      ({{ (diffs.orgs[orgName][label] < 0 ? "" : "+") + diffs.orgs[orgName][label] }})
-                    </span>
-                  </td>
-                </tr>
+                    ({{ (diffs.orgs[org.name][label] < 0 ? "" : "+") + diffs.orgs[org.name][label] }})
+                  </span>
+                </td>
               </tr>
             </tbody>
           </table>
