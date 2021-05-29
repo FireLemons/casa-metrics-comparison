@@ -1,6 +1,6 @@
-function downloadToFile(content, filename, contentType) {
+function downloadToTextiTextFile(content, filename) {
   const a = document.createElement('a');
-  const file = new Blob([content], {type: contentType});
+  const file = new Blob([content], {type: 'text/plain'});
 
   a.href= URL.createObjectURL(file);
   a.download = filename;
@@ -106,7 +106,7 @@ const app = new Vue({
   },
   methods: {
     download: function () {
-      downloadToFile(this.backup, 'backup.js', 'text/plain');
+      downloadToFile(this.backup, 'backup.js');
     },
 
     save: function () {
@@ -123,7 +123,7 @@ const app = new Vue({
       if (owner === 'global') {
         this.global[name].newValue = Number.isInteger(value) ? value : Math.round(value)
       } else {
-        this.orgs[owner][name].newValue = Number.isInteger(value) ? value : Math.round(value)
+        this.orgs[owner].metrics[name].newValue = Number.isInteger(value) ? value : Math.round(value)
       }
     }
   },
@@ -145,7 +145,7 @@ const app = new Vue({
       const metric = 'Case Contact Count'
 
       data.values.forEach((val) => {
-        this.orgs[val[0] - 1].metrics[metric].newValue = val[1]
+        this.updateMetric(metric, val[0] - 1, val[1])
       })
 
       this.queries[metric] = 'loaded'
