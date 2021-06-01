@@ -1,4 +1,7 @@
-function downloadToTextiTextFile(content, filename) {
+// Writes text to a file and prompts to save it
+//   @param {string} content  The contents of the file to be created
+//   @param {string} filename The default name of the file to be generated
+function downloadToTextFile(content, filename) {
   const a = document.createElement('a');
   const file = new Blob([content], {type: 'text/plain'});
 
@@ -9,6 +12,10 @@ function downloadToTextiTextFile(content, filename) {
 	URL.revokeObjectURL(a.href);
 }
 
+// Fetches JSON from a url
+//   @param {string} url The url of the JSON
+//   @param {function} callback A function to handle the JSON once retrieved
+//     @param {object} The JSON as an object
 function getJSON (url, callback) {
   const request = new XMLHttpRequest()
 
@@ -22,16 +29,6 @@ function getJSON (url, callback) {
 
   request.open("get", url, true);
   request.send();
-}
-
-function makeDiff (stats) {
-  const diff = {}
-
-  for (label in stats) {
-    diff[label] = stats[label].newValue - stats[label].savedValue
-  }
-
-  return diff
 }
 
 const app = new Vue({
@@ -92,11 +89,11 @@ const app = new Vue({
 
       this.orgs.forEach((org) => {
         if (org) {
-          orgs[org.name] = makeDiff(org.metrics)
+          orgs[org.name] = this.diffMetrics(org.metrics)
         }
       })
 
-      const globalDiff = makeDiff(this.global)
+      const globalDiff = this.diffMetrics(this.global)
 
       return {
         'orgs': orgs,
@@ -105,8 +102,18 @@ const app = new Vue({
     }
   },
   methods: {
+    diffMetrics: function (stats) {
+      const diff = {}
+
+      for (label in stats) {
+        diff[label] = stats[label].newValue - stats[label].savedValue
+      }
+
+      return diff
+    },
+
     download: function () {
-      downloadToFile(this.backup, 'backup.js');
+      downloadToTextFile(this.backup, 'backup.js');
     },
 
     save: function () {
@@ -145,7 +152,9 @@ const app = new Vue({
       const metric = 'Case Contact Count'
 
       data.values.forEach((val) => {
-        this.updateMetric(metric, val[0] - 1, val[1])
+        if (this.orgs[val[0] - 1]) {
+          this.updateMetric(metric, val[0] - 1, val[1])
+        }
       })
 
       this.queries[metric] = 'loaded'
@@ -156,7 +165,7 @@ const app = new Vue({
 
       data.values.forEach((val) => {
         if (this.orgs[val[0] - 1]) {
-          this.orgs[val[0] - 1].metrics[metric].newValue = val[1]
+          this.updateMetric(metric, val[0] - 1, val[1])
         }
       })
 
@@ -168,7 +177,7 @@ const app = new Vue({
 
       data.values.forEach((val) => {
         if (this.orgs[val[0] - 1]) {
-          this.orgs[val[0] - 1].metrics[metric].newValue = val[1]
+          this.updateMetric(metric, val[0] - 1, val[1])
         }
       })
 
@@ -180,7 +189,7 @@ const app = new Vue({
 
       data.values.forEach((val) => {
         if (this.orgs[val[0] - 1]) {
-          this.orgs[val[0] - 1].metrics[metric].newValue = val[1]
+          this.updateMetric(metric, val[0] - 1, val[1])
         }
       })
 
@@ -204,7 +213,7 @@ const app = new Vue({
       const metric = 'Total Hours in Case Contacts'
 
       data.values.forEach((val) => {
-        this.global[metric].newValue = Math.round(val[0])
+        this.updateMetric(metric, 'global', val[0])
       })
 
       this.queries[metric] = 'loaded'
