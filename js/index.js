@@ -13,22 +13,26 @@ function downloadToTextFile(content, filename) {
 }
 
 // Fetches JSON from a url
-//   @param {string} url The url of the JSON
-//   @param {function} callback A function to handle the JSON once retrieved
+//   @param  {string} url The url of the JSON
 //     @param {object} The JSON as an object
-function getJSON (url, callback) {
-  const request = new XMLHttpRequest()
+//   @return {promise} A Promise representing the request. Resolves with the JSON as an object
+function getJSON (url) {
+  return new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest()
 
-  request.onreadystatechange = function() {
-    if (this.readyState === 4 && this.status === 200) {
-      callback(JSON.parse(this.responseText))
-    } else if (this.readyState === 4 && this.status !== 200){
-      console.error(`Request to ${url} Failed`)
+    request.onreadystatechange = function() {
+      if (this.readyState === 4) {
+        if (this.status === 200) {
+          resolve(JSON.parse(this.responseText))
+        } else {
+          console.error(`Request to ${url} Failed`)
+        }
+      }
     }
-  }
 
-  request.open("get", url, true);
-  request.send();
+    request.open("get", url, true);
+    request.send();
+  });
 }
 
 const app = new Vue({
@@ -102,20 +106,27 @@ const app = new Vue({
     }
   },
   methods: {
-    diffMetrics: function (stats) {
+    // Produces a metrics hash map where the values are the difference(new - old)
+    //   @param  {object} The object containing the metrics where the keys are a description of the metric and the values are the metric value
+    //   @return {object} An object representing the difference in metrics similar to the input object
+    diffMetrics: function (metrics) {
       const diff = {}
 
-      for (label in stats) {
-        diff[label] = stats[label].newValue - stats[label].savedValue
+      for (label in metrics) {
+        diff[label] = metrics[label].newValue - metrics[label].savedValue
       }
 
       return diff
     },
 
+    // Prompts the user to download a copy of the backup script
     download: function () {
       downloadToTextFile(this.backup, 'backup.js');
     },
 
+    handleSimpleOrgMetric: function (url, metricName) {},
+
+    // Sets the saved metrics as the current metrics
     save: function () {
       this.orgs.map((org) => org.metrics).concat(this.global).forEach((metrics) => {
         for(metric in metrics) {
@@ -126,6 +137,10 @@ const app = new Vue({
       localStorage.setItem('metrics', JSON.stringify({orgs: this.orgs, global: this.global}))
     },
 
+    // Sets a metric's "newValue"
+    //   @param {string} The object containing the metrics where the keys are a description of the metric and the values are the metric value
+    //   @param {string | number} An object representing the difference in metrics similar to the input object
+    //   @param {number} An object representing the difference in metrics similar to the input object
     updateMetric: function (name, owner, value) {
       if (owner === 'global') {
         this.global[name].newValue = Number.isInteger(value) ? value : Math.round(value)
@@ -148,7 +163,8 @@ const app = new Vue({
       this.global = Object.assign(this.global, savedData.global)
     }
 
-    getJSON('https://data.heroku.com/dataclips/idfolumrbaubogbmewdoeyahhdtj.json', (data) => {
+    getJSON('https://data.heroku.com/dataclips/idfolumrbaubogbmewdoeyahhdtj.json')
+    .then((data) => {
       const metric = 'Case Contact Count'
 
       data.values.forEach((val) => {
@@ -160,7 +176,8 @@ const app = new Vue({
       this.queries[metric] = 'loaded'
     })
 
-    getJSON('https://data.heroku.com/dataclips/ymbdlyldhiiqcmsslbjfjdjmzwco.json', (data) => {
+    getJSON('https://data.heroku.com/dataclips/ymbdlyldhiiqcmsslbjfjdjmzwco.json')
+    .then((data) => {
       const metric = 'Volunteers Assigned to Supervisors'
 
       data.values.forEach((val) => {
@@ -172,7 +189,8 @@ const app = new Vue({
       this.queries[metric] = 'loaded'
     })
 
-    getJSON('https://data.heroku.com/dataclips/xsikhducnqfdrmfcntvdhtehuuwp.json', (data) => {
+    getJSON('https://data.heroku.com/dataclips/xsikhducnqfdrmfcntvdhtehuuwp.json')
+    .then((data) => {
       const metric = 'Notification Count'
 
       data.values.forEach((val) => {
@@ -184,7 +202,8 @@ const app = new Vue({
       this.queries[metric] = 'loaded'
     })
 
-    getJSON('https://data.heroku.com/dataclips/fairemyutljnkjgwldlaqtpecvvt.json', (data) => {
+    getJSON('https://data.heroku.com/dataclips/fairemyutljnkjgwldlaqtpecvvt.json')
+    .then((data) => {
       const metric = 'Cases With Mandates'
 
       data.values.forEach((val) => {
@@ -196,7 +215,8 @@ const app = new Vue({
       this.queries[metric] = 'loaded'
     })
 
-    getJSON('https://data.heroku.com/dataclips/ibzctyhepsfsgpiobxrltuhejxds.json', (data) => {
+    getJSON('https://data.heroku.com/dataclips/ibzctyhepsfsgpiobxrltuhejxds.json')
+    .then((data) => {
       data.values.forEach((val) => {
         let metric = val[1] ? 'Accepted Invitations' : 'Unaccepted Invitations'
 
@@ -209,7 +229,8 @@ const app = new Vue({
       this.queries['Unaccepted Invitations'] = 'loaded'
     })
 
-    getJSON('https://data.heroku.com/dataclips/vgblwvzhclatsdxzdbihypqulckq.json', (data) => {
+    getJSON('https://data.heroku.com/dataclips/vgblwvzhclatsdxzdbihypqulckq.json')
+    .then((data) => {
       const metric = 'Total Hours in Case Contacts'
 
       data.values.forEach((val) => {
@@ -219,7 +240,8 @@ const app = new Vue({
       this.queries[metric] = 'loaded'
     })
 
-    getJSON('https://data.heroku.com/dataclips/ahvopfhogmvuccdzdnncmwlioidd.json', (data) => {
+    getJSON('https://data.heroku.com/dataclips/ahvopfhogmvuccdzdnncmwlioidd.json')
+    .then((data) => {
       data.values.forEach((val) => {
         if (this.orgs[val[0] - 1]) {
           this.orgs[val[0] - 1].metrics['Users Who Have Added Case Contacts in Last 2 Weeks'].newValue = val[1]
