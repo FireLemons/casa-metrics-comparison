@@ -124,7 +124,21 @@ const app = new Vue({
       downloadToTextFile(this.backup, 'backup.js');
     },
 
-    handleSimpleOrgMetric: function (url, metricName) {},
+    // Handles updating org metrics where the data is an array of elements in the form [org, metric value]
+    //   @param {string} url The url of the updated metric JSON data
+    //   @param {string} metricName The key of the metric to be updated
+    handleSimpleOrgMetric: function (url, metricName) {
+      getJSON(url)
+      .then((data) => {
+        data.values.forEach((val) => {
+          if (this.orgs[val[0] - 1]) {
+            this.updateMetric(metricName, val[0] - 1, val[1])
+          }
+        })
+
+        this.queries[metricName] = 'loaded'
+      })
+    },
 
     // Sets the saved metrics as the current metrics
     save: function () {
@@ -138,9 +152,9 @@ const app = new Vue({
     },
 
     // Sets a metric's "newValue"
-    //   @param {string} The object containing the metrics where the keys are a description of the metric and the values are the metric value
-    //   @param {string | number} An object representing the difference in metrics similar to the input object
-    //   @param {number} An object representing the difference in metrics similar to the input object
+    //   @param {string}          name The key of the metric to be updated
+    //   @param {string | number} owner Either the org id or 'global'; indicating which object the metric belongs to
+    //   @param {number}          value The value of the metric to be set
     updateMetric: function (name, owner, value) {
       if (owner === 'global') {
         this.global[name].newValue = Number.isInteger(value) ? value : Math.round(value)
@@ -163,18 +177,7 @@ const app = new Vue({
       this.global = Object.assign(this.global, savedData.global)
     }
 
-    getJSON('https://data.heroku.com/dataclips/idfolumrbaubogbmewdoeyahhdtj.json')
-    .then((data) => {
-      const metric = 'Case Contact Count'
-
-      data.values.forEach((val) => {
-        if (this.orgs[val[0] - 1]) {
-          this.updateMetric(metric, val[0] - 1, val[1])
-        }
-      })
-
-      this.queries[metric] = 'loaded'
-    })
+    this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/idfolumrbaubogbmewdoeyahhdtj.json', 'Case Contact Count')
 
     getJSON('https://data.heroku.com/dataclips/ymbdlyldhiiqcmsslbjfjdjmzwco.json')
     .then((data) => {
