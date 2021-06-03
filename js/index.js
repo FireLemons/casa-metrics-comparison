@@ -190,7 +190,7 @@ const app = new Vue({
       this.requests[metric] = 'unloaded'
     }
 
-    for (metric in this.orgs[0]) {
+    for (metric in this.orgs[0].metrics) {
       this.requests[metric] = 'unloaded'
     }
 
