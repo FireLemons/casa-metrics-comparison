@@ -38,6 +38,12 @@ function getJSON (url) {
 const app = new Vue({
   el: '#app',
   data: {
+    global: {
+      'Total Hours in Case Contacts': { savedValue: 0, newValue: 0}
+    },
+    meta: {
+      'last updated': null
+    },
     orgs: [
       {
         'name': 'Prince George',
@@ -66,9 +72,6 @@ const app = new Vue({
         }
       }
     ],
-    global: {
-      'Total Hours in Case Contacts': { savedValue: 0, newValue: 0}
-    },
     requests: {}
   },
   computed: {

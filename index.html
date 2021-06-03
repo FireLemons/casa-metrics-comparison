@@ -14,6 +14,7 @@
     </noscript>
     <div id="app">
       <h1>Open the console to see load errors</h1>
+      <h1 v-if="meta['last updated'] instanceof Date">{{ `Last updated ${Math.round((new Date() - meta['last updated']) / 86400000)} days ago` }}</h1>
       <div id="org-tables">
         <div v-for="org in orgs">
           <h2>{{ org.name }}</h2>
