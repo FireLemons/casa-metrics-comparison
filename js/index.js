@@ -69,17 +69,7 @@ const app = new Vue({
     global: {
       'Total Hours in Case Contacts': { savedValue: 0, newValue: 0}
     },
-    queries: {
-      'Accepted Invitations'                              : 'unloaded',
-      'Unaccepted Invitations'                            : 'unloaded',
-      'Cases With Mandates'                               : 'unloaded',
-      'Case Contact Count'                                : 'unloaded',
-      'Case Contact Count in Last 2 Weeks'                : 'unloaded',
-      'Users Who Have Added Case Contacts in Last 2 Weeks': 'unloaded',
-      'Notification Count'                                : 'unloaded',
-      'Total Hours in Case Contacts'                      : 'unloaded',
-      'Volunteers AssignVed to Supervisors'               : 'unloaded'
-    }
+    requests: {}
   },
   computed: {
     backup: function () {
@@ -134,7 +124,7 @@ const app = new Vue({
           this.updateMetric(metricName, 'global', val[0])
         })
 
-        this.queries[metricName] = 'loaded'
+        this.requests[metricName] = 'loaded'
       })
     },
 
@@ -150,7 +140,7 @@ const app = new Vue({
           }
         })
 
-        this.queries[metricName] = 'loaded'
+        this.requests[metricName] = 'loaded'
       })
     },
 
@@ -180,6 +170,7 @@ const app = new Vue({
   mounted: function() {
     const savedData = JSON.parse(localStorage.getItem('metrics'))
 
+    // Load Save
     if (savedData) {
       this.orgs.forEach((org, i) => {
         this.orgs[i] = {
@@ -191,6 +182,16 @@ const app = new Vue({
       this.global = Object.assign(this.global, savedData.global)
     }
 
+    // Generate JSON Requests Tracking List
+    for (metric in this.global) {
+      this.requests[metric] = 'unloaded'
+    }
+
+    for (metric in this.orgs[0]) {
+      this.requests[metric] = 'unloaded'
+    }
+
+    // Fetch Current Metric Data
     this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/idfolumrbaubogbmewdoeyahhdtj.json', 'Case Contact Count')
     this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/ymbdlyldhiiqcmsslbjfjdjmzwco.json', 'Volunteers Assigned to Supervisors')
     this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/xsikhducnqfdrmfcntvdhtehuuwp.json', 'Notification Count')
@@ -207,8 +208,8 @@ const app = new Vue({
         }
       })
 
-      this.queries['Accepted Invitations'] = 'loaded'
-      this.queries['Unaccepted Invitations'] = 'loaded'
+      this.requests['Accepted Invitations'] = 'loaded'
+      this.requests['Unaccepted Invitations'] = 'loaded'
     })
 
     getJSON('https://data.heroku.com/dataclips/ahvopfhogmvuccdzdnncmwlioidd.json')
@@ -220,8 +221,8 @@ const app = new Vue({
         }
       })
 
-      this.queries['Users Who Have Added Case Contacts in Last 2 Weeks'] = 'loaded'
-      this.queries['Case Contact Count in Last 2 Weeks'] = 'loaded'
+      this.requests['Users Who Have Added Case Contacts in Last 2 Weeks'] = 'loaded'
+      this.requests['Case Contact Count in Last 2 Weeks'] = 'loaded'
     })
   }
 })

@@ -19,7 +19,7 @@
           <h2>{{ org.name }}</h2>
           <table>
             <tbody>
-              <tr v-for="(stat, label) in org.metrics" :class="queries[label]">
+              <tr v-for="(stat, label) in org.metrics" :class="requests[label]">
                 <td >{{ label }}</td>
                 <td>
                   {{ stat.savedValue }}
@@ -39,7 +39,7 @@
         <h2>Global Stats</h2>
         <table>
           <tbody>
-            <tr v-for="(stat, label) in global" :class="queries[label]">
+            <tr v-for="(stat, label) in global" :class="requests[label]">
               <td>{{ label }}</td>
               <td>
                 {{ stat.savedValue }}
