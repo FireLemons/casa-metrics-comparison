@@ -124,7 +124,21 @@ const app = new Vue({
       downloadToTextFile(this.backup, 'backup.js');
     },
 
-    // Handles updating org metrics where the data is an array of elements in the form [org, metric value]
+    // Handles updating a global metric
+    //   @param {string} url The url of the updated metric JSON data
+    //   @param {string} metricName The key of the metric to be updated
+    handleGlobalMetric: function (url, metricName) {
+      getJSON(url)
+      .then((data) => {
+        data.values.forEach((val) => {
+          this.updateMetric(metricName, 'global', val[0])
+        })
+
+        this.queries[metricName] = 'loaded'
+      })
+    },
+
+    // Handles updating an org metric where the data is an array of elements in the form [org, metric value]
     //   @param {string} url The url of the updated metric JSON data
     //   @param {string} metricName The key of the metric to be updated
     handleSimpleOrgMetric: function (url, metricName) {
@@ -178,45 +192,10 @@ const app = new Vue({
     }
 
     this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/idfolumrbaubogbmewdoeyahhdtj.json', 'Case Contact Count')
-
-    getJSON('https://data.heroku.com/dataclips/ymbdlyldhiiqcmsslbjfjdjmzwco.json')
-    .then((data) => {
-      const metric = 'Volunteers Assigned to Supervisors'
-
-      data.values.forEach((val) => {
-        if (this.orgs[val[0] - 1]) {
-          this.updateMetric(metric, val[0] - 1, val[1])
-        }
-      })
-
-      this.queries[metric] = 'loaded'
-    })
-
-    getJSON('https://data.heroku.com/dataclips/xsikhducnqfdrmfcntvdhtehuuwp.json')
-    .then((data) => {
-      const metric = 'Notification Count'
-
-      data.values.forEach((val) => {
-        if (this.orgs[val[0] - 1]) {
-          this.updateMetric(metric, val[0] - 1, val[1])
-        }
-      })
-
-      this.queries[metric] = 'loaded'
-    })
-
-    getJSON('https://data.heroku.com/dataclips/fairemyutljnkjgwldlaqtpecvvt.json')
-    .then((data) => {
-      const metric = 'Cases With Mandates'
-
-      data.values.forEach((val) => {
-        if (this.orgs[val[0] - 1]) {
-          this.updateMetric(metric, val[0] - 1, val[1])
-        }
-      })
-
-      this.queries[metric] = 'loaded'
-    })
+    this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/ymbdlyldhiiqcmsslbjfjdjmzwco.json', 'Volunteers Assigned to Supervisors')
+    this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/xsikhducnqfdrmfcntvdhtehuuwp.json', 'Notification Count')
+    this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/fairemyutljnkjgwldlaqtpecvvt.json', 'Cases With Mandates')
+    this.handleGlobalMetric('https://data.heroku.com/dataclips/vgblwvzhclatsdxzdbihypqulckq.json', 'Total Hours in Case Contacts')
 
     getJSON('https://data.heroku.com/dataclips/ibzctyhepsfsgpiobxrltuhejxds.json')
     .then((data) => {
@@ -230,17 +209,6 @@ const app = new Vue({
 
       this.queries['Accepted Invitations'] = 'loaded'
       this.queries['Unaccepted Invitations'] = 'loaded'
-    })
-
-    getJSON('https://data.heroku.com/dataclips/vgblwvzhclatsdxzdbihypqulckq.json')
-    .then((data) => {
-      const metric = 'Total Hours in Case Contacts'
-
-      data.values.forEach((val) => {
-        this.updateMetric(metric, 'global', val[0])
-      })
-
-      this.queries[metric] = 'loaded'
     })
 
     getJSON('https://data.heroku.com/dataclips/ahvopfhogmvuccdzdnncmwlioidd.json')
