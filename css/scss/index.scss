@@ -18,6 +18,10 @@ body {
     width: max-content;
     margin: 0 auto;
 
+    &>*:last-child {
+      margin-bottom: 1rem;
+    }
+
     button {
       background-color: #444;
       border: 0;
@@ -25,7 +29,7 @@ body {
       cursor: pointer;
       font-size: 24pt;
       padding: 0.5rem;
-      width: calc(100% - 1rem);
+      width: calc(100% - .5rem);
 
       &:hover{
         background-color: #555;
@@ -66,14 +70,14 @@ body {
       color: var(--main-color);
       font-family: "Ubuntu Mono";
       padding: 1rem;
-      width: calc(100% - 1rem);
+      width: calc(100% - .5rem);
     }
 
     #global-table {
       background-color: #444;
-      margin: 0.5em auto;
-      padding: 1em;
-      width: calc(100% - 1rem);
+      margin: 0.25rem auto;
+      padding: 1rem;
+      width: calc(100% - .5rem);
 
       table {
         width: 100%;
@@ -90,13 +94,17 @@ body {
 
       &>div{
         background-color: #444;
-        margin: 0.5rem;
+        margin: 0.25rem;
         padding: 1rem;
 
         h3{
           padding-bottom: .5rem;
         }
       }
+    }
+
+    #org-tables + button {
+      margin: .25rem auto;
     }
   }
 }

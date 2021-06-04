@@ -17,6 +17,9 @@ body #app {
   width: max-content;
   margin: 0 auto;
 }
+body #app > *:last-child {
+  margin-bottom: 1rem;
+}
 body #app button {
   background-color: #444;
   border: 0;
@@ -24,7 +27,7 @@ body #app button {
   cursor: pointer;
   font-size: 24pt;
   padding: 0.5rem;
-  width: calc(100% - 1rem);
+  width: calc(100% - .5rem);
 }
 body #app button:hover {
   background-color: #555;
@@ -57,13 +60,13 @@ body #app textarea {
   color: var(--main-color);
   font-family: "Ubuntu Mono";
   padding: 1rem;
-  width: calc(100% - 1rem);
+  width: calc(100% - .5rem);
 }
 body #app #global-table {
   background-color: #444;
-  margin: 0.5em auto;
-  padding: 1em;
-  width: calc(100% - 1rem);
+  margin: 0.25rem auto;
+  padding: 1rem;
+  width: calc(100% - .5rem);
 }
 body #app #global-table table {
   width: 100%;
@@ -77,9 +80,12 @@ body #app #org-tables {
 }
 body #app #org-tables > div {
   background-color: #444;
-  margin: 0.5rem;
+  margin: 0.25rem;
   padding: 1rem;
 }
 body #app #org-tables > div h3 {
   padding-bottom: 0.5rem;
+}
+body #app #org-tables + button {
+  margin: 0.25rem auto;
 }
