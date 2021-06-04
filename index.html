@@ -6,6 +6,7 @@
     <link rel="icon" type="image/png" href="img/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="img/favicon-96x96.png" sizes="96x96">
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/materialize.min.css">
     <script src="js/vue.min.js"></script>
   </head>
   <body>
@@ -17,7 +18,7 @@
       <h1 v-if="meta['last updated'] instanceof Date">{{ `Last updated ${Math.round((new Date() - meta['last updated']) / 86400000)} days ago` }}</h1>
       <div id="org-tables">
         <div v-for="org in orgs">
-          <h2>{{ org.name }}</h2>
+          <h3>{{ org.name }}</h3>
           <table>
             <tbody>
               <tr v-for="(stat, label) in org.metrics" :class="requests[label]">
@@ -25,7 +26,7 @@
                 <td>
                   {{ stat.savedValue }}
                   <span
-                    :class="diffs.orgs[org.name][label] < 0 ? 'red' : 'green'"
+                    :class="diffs.orgs[org.name][label] < 0 ? 'red-text' : 'green-text text-accent-4'"
                     v-if="diffs.orgs[org.name][label] !== 0">
 
                     ({{ (diffs.orgs[org.name][label] < 0 ? "" : "+") + diffs.orgs[org.name][label] }})
@@ -37,7 +38,7 @@
         </div>
       </div>
       <div id="global-table">
-        <h2>Global Stats</h2>
+        <h3>Global Stats</h3>
         <table>
           <tbody>
             <tr v-for="(stat, label) in global" :class="requests[label]">
@@ -45,7 +46,7 @@
               <td>
                 {{ stat.savedValue }}
                 <span
-                  :class="diffs.global[label] < 0 ? 'red' : 'green'"
+                  :class="diffs.global[label] < 0 ? 'red-text' : 'green-text text-accent-4'"
                   v-if="diffs.global[label] !== 0">
 
                   ({{ (diffs.global[label] < 0 ? "" : "+") + diffs.global[label] }})

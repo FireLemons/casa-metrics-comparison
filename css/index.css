@@ -29,27 +29,27 @@ body #app button {
 body #app button:hover {
   background-color: #555;
 }
-body #app h2 {
+body #app h3 {
   border-bottom: 2px solid var(--main-color);
   margin: 0;
   margin-bottom: 1rem;
 }
-body #app span.green {
-  color: #00c853;
-}
-body #app span.red {
-  color: #f44336;
-}
 body #app table {
   border-collapse: collapse;
 }
-body #app td {
+body #app table td {
   font-weight: bold;
   padding: 0.5rem 1rem;
   text-align: left;
 }
-body #app td:first-child {
+body #app table td:first-child {
   border-right: 2px solid var(--main-color);
+}
+body #app table tr {
+  border-bottom: 0;
+}
+body #app table tr.unloaded {
+  color: #8f5e14;
 }
 body #app textarea {
   background-color: #444;
@@ -57,16 +57,13 @@ body #app textarea {
   color: var(--main-color);
   font-family: "Ubuntu Mono";
   padding: 1rem;
-  width: calc(100% - 3rem);
-}
-body #app tr.unloaded {
-  color: #8f5e14;
+  width: calc(100% - 1rem);
 }
 body #app #global-table {
   background-color: #444;
   margin: 0.5em auto;
   padding: 1em;
-  width: calc(100% - 3rem);
+  width: calc(100% - 1rem);
 }
 body #app #global-table table {
   width: 100%;
@@ -82,4 +79,7 @@ body #app #org-tables > div {
   background-color: #444;
   margin: 0.5rem;
   padding: 1rem;
+}
+body #app #org-tables > div h3 {
+  padding-bottom: 0.5rem;
 }
