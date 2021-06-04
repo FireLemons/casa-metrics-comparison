@@ -42,7 +42,7 @@ const app = new Vue({
       'Total Hours in Case Contacts': { savedValue: 0, newValue: 0}
     },
     meta: {
-      'last updated': null
+      'last updated': new Date()
     },
     orgs: [
       {
@@ -96,6 +96,10 @@ const app = new Vue({
         'orgs': orgs,
         'global': globalDiff
       }
+    },
+
+    hoursSinceLastUpdated: function () {
+      return Math.round((new Date() - this.meta['last updated']) / 3600000)
     }
   },
   methods: {
