@@ -77,8 +77,8 @@ const app = new Vue({
   computed: {
     backup: function () {
       const textarea = document.querySelector('textarea')
-      textarea.style.height = textarea.scrollHeight+'px'
-      return `localStorage.setItem('metrics', JSON.stringify(${JSON.stringify({orgs: this.orgs, global: this.global}, null, 2)}))`
+      textarea.style.height = `${textarea.scrollHeight}px`
+      return `localStorage.setItem('metrics', JSON.stringify(${JSON.stringify(this.saveData, null, 2)}))`
     },
 
     diffs: function () {
@@ -100,6 +100,13 @@ const app = new Vue({
 
     hoursSinceLastUpdated: function () {
       return Math.round((new Date() - this.meta['last updated']) / 3600000)
+    },
+
+    saveData: function () {
+      return {
+        global: this.global,
+        orgs: this.orgs
+      }
     }
   },
   methods: {
@@ -159,7 +166,7 @@ const app = new Vue({
         }
       })
 
-      localStorage.setItem('metrics', JSON.stringify({orgs: this.orgs, global: this.global}))
+      localStorage.setItem('metrics', JSON.stringify(this.saveData))
     },
 
     // Sets a metric's "newValue"
