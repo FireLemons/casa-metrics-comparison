@@ -1,5 +1,8 @@
 :root {
-  --main-color: #ff9800;
+  --background-color: #222;
+  --background-color-light: #444;
+  --background-color-highlight: #555;
+  --foreground-color: #ff9800;
 }
 
 @font-face {
@@ -9,31 +12,28 @@
   src: url(../fonts/ubuntu_mono/UbuntuMono-Regular.ttf) format("ttf");
 }
 body {
-  background-color: #222;
-  color: var(--main-color);
+  background-color: var(--background-color);
+  color: var(--foreground-color);
   text-align: center;
 }
 body #app {
   width: max-content;
-  margin: 0 auto;
-}
-body #app > *:last-child {
-  margin-bottom: 1rem;
+  margin: 0 auto 2rem auto;
 }
 body #app button {
-  background-color: #444;
+  background-color: var(--background-color-light);
   border: 0;
-  color: var(--main-color);
+  color: var(--foreground-color);
   cursor: pointer;
   font-size: 24pt;
   padding: 0.5rem;
   width: calc(100% - .5rem);
 }
 body #app button:hover {
-  background-color: #555;
+  background-color: var(--background-color-highlight);
 }
 body #app h3 {
-  border-bottom: 2px solid var(--main-color);
+  border-bottom: 2px solid var(--foreground-color);
   margin: 0;
   margin-bottom: 1rem;
 }
@@ -46,7 +46,7 @@ body #app table td {
   text-align: left;
 }
 body #app table td:first-child {
-  border-right: 2px solid var(--main-color);
+  border-right: 2px solid var(--foreground-color);
 }
 body #app table tr {
   border-bottom: 0;
@@ -55,15 +55,15 @@ body #app table tr.unloaded {
   color: #8f5e14;
 }
 body #app textarea {
-  background-color: #444;
+  background-color: var(--background-color-light);
   border: 0;
-  color: var(--main-color);
+  color: var(--foreground-color);
   font-family: "Ubuntu Mono";
   padding: 1rem;
   width: calc(100% - .5rem);
 }
 body #app #global-table {
-  background-color: #444;
+  background-color: var(--background-color-light);
   margin: 0.25rem auto;
   padding: 1rem;
   width: calc(100% - .5rem);
@@ -74,12 +74,25 @@ body #app #global-table table {
 body #app #global-table table td:first-child {
   width: auto;
 }
+body #app #notifications {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+}
+body #app #notifications > div {
+  border-radius: 2px;
+  display: flex;
+}
+body #app #notifications > div button, body #app #notifications > div span {
+  padding: 0.5rem;
+  font-size: 12pt;
+}
 body #app #org-tables {
   display: flex;
   justify-content: center;
 }
 body #app #org-tables > div {
-  background-color: #444;
+  background-color: var(--background-color-light);
   margin: 0.25rem;
   padding: 1rem;
 }

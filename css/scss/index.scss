@@ -1,5 +1,8 @@
 :root {
-  --main-color: #ff9800;
+  --background-color: #222;
+  --background-color-light: #444;
+  --background-color-highlight: #555;
+  --foreground-color: #ff9800;
 }
 
 @font-face {
@@ -10,34 +13,30 @@
 }
 
 body {
-  background-color: #222;
-  color: var(--main-color);
+  background-color: var(--background-color);
+  color: var(--foreground-color);
   text-align: center;
 
   #app {
     width: max-content;
-    margin: 0 auto;
-
-    &>*:last-child {
-      margin-bottom: 1rem;
-    }
+    margin: 0 auto 2rem auto;
 
     button {
-      background-color: #444;
+      background-color: var(--background-color-light);
       border: 0;
-      color: var(--main-color);
+      color: var(--foreground-color);
       cursor: pointer;
       font-size: 24pt;
       padding: 0.5rem;
       width: calc(100% - .5rem);
 
       &:hover{
-        background-color: #555;
+        background-color: var(--background-color-highlight);
       }
     }
 
     h3 {
-      border-bottom: 2px solid var(--main-color);
+      border-bottom: 2px solid var(--foreground-color);
       margin: 0;
       margin-bottom: 1rem;
     }
@@ -51,7 +50,7 @@ body {
         text-align: left;
 
         &:first-child {
-          border-right: 2px solid var(--main-color);
+          border-right: 2px solid var(--foreground-color);
         }
       }
 
@@ -65,16 +64,16 @@ body {
     }
 
     textarea {
-      background-color: #444;
+      background-color: var(--background-color-light);
       border: 0;
-      color: var(--main-color);
+      color: var(--foreground-color);
       font-family: "Ubuntu Mono";
       padding: 1rem;
       width: calc(100% - .5rem);
     }
 
     #global-table {
-      background-color: #444;
+      background-color: var(--background-color-light);
       margin: 0.25rem auto;
       padding: 1rem;
       width: calc(100% - .5rem);
@@ -88,12 +87,28 @@ body {
       }
     }
 
+    #notifications {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+
+      &>div {
+        border-radius: 2px;
+        display: flex;
+
+        button, span {
+          padding: .5rem;
+          font-size: 12pt;
+        }
+      }
+    }
+
     #org-tables {
       display: flex;
       justify-content: center;
 
       &>div{
-        background-color: #444;
+        background-color: var(--background-color-light);
         margin: 0.25rem;
         padding: 1rem;
 
