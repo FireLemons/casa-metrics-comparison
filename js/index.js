@@ -20,7 +20,7 @@ function getJSON (url) {
   return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest()
 
-    request.onreadystatechange = function() {
+    request.onreadystatechange = function () {
       if (this.readyState === 4) {
         if (this.status === 200) {
           resolve(JSON.parse(this.responseText))
@@ -28,6 +28,11 @@ function getJSON (url) {
           console.error(`Request to ${url} Failed`)
         }
       }
+    }
+
+    request.onerror = function () {
+      console.error(`Request to ${url} Failed`)
+      console.error(xmlHTTP.responseText)
     }
 
     request.open("get", url, true);
@@ -105,6 +110,9 @@ const app = new Vue({
     saveData: function () {
       return {
         global: this.global,
+        meta: {
+          'last updated': this.meta['last updated'].toJSON()
+        },
         orgs: this.orgs
       }
     }
@@ -186,23 +194,27 @@ const app = new Vue({
 
     // Load Save
     if (savedData) {
+      this.global = Object.assign(this.global, savedData.global)
+
+      this.meta = {
+        'last updated': new Date(savedData.meta['last updated'])
+      }
+
       this.orgs.forEach((org, i) => {
         this.orgs[i] = {
           'name': org.name,
           'metrics': Object.assign(this.orgs[i].metrics, savedData.orgs[i].metrics)
         }
       })
-
-      this.global = Object.assign(this.global, savedData.global)
     }
 
     // Generate JSON Requests Tracking List
     for (metric in this.global) {
-      this.requests[metric] = 'unloaded'
+      this.$set(this.requests, metric, 'unloaded')
     }
 
     for (metric in this.orgs[0].metrics) {
-      this.requests[metric] = 'unloaded'
+      this.$set(this.requests, metric, 'unloaded')
     }
 
     // Fetch Current Metric Data
