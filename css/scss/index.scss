@@ -88,17 +88,37 @@ body {
     }
 
     #notifications {
+      bottom: 1rem; right: 1rem;
       position: fixed;
-      right: 1rem;
-      bottom: 1rem;
 
       &>div {
+        background-color: var(--background-color-light);
         border-radius: 2px;
         display: flex;
+        justify-content: space-between;
+        margin: 0.5rem 0;
 
-        button, span {
-          padding: .5rem;
+        button {
+          background-color: #ff6f00;
+          border-top-right-radius: 2px;
+          border-bottom-right-radius: 2px;
+          color: var(--background-color);
+          font-size: 140%;
+          font-weight: 500;
+          padding: 0.5rem .75rem;
+          width: unset;
+
+          &:hover {
+            background-color: #ff8f00;
+            color: var(--background-color-light);
+          }
+        }
+
+        span {
           font-size: 12pt;
+          padding: 0.5rem 0.75rem;
+          user-select: none;
+          white-space: nowrap;
         }
       }
     }

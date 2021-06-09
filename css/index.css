@@ -75,17 +75,36 @@ body #app #global-table table td:first-child {
   width: auto;
 }
 body #app #notifications {
-  position: fixed;
-  right: 1rem;
   bottom: 1rem;
+  right: 1rem;
+  position: fixed;
 }
 body #app #notifications > div {
+  background-color: var(--background-color-light);
   border-radius: 2px;
   display: flex;
+  justify-content: space-between;
+  margin: 0.5rem 0;
 }
-body #app #notifications > div button, body #app #notifications > div span {
-  padding: 0.5rem;
+body #app #notifications > div button {
+  background-color: #ff6f00;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  color: var(--background-color);
+  font-size: 140%;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  width: unset;
+}
+body #app #notifications > div button:hover {
+  background-color: #ff8f00;
+  color: var(--background-color-light);
+}
+body #app #notifications > div span {
   font-size: 12pt;
+  padding: 0.5rem 0.75rem;
+  user-select: none;
+  white-space: nowrap;
 }
 body #app #org-tables {
   display: flex;

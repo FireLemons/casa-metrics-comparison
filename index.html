@@ -61,6 +61,12 @@
       <p>(paste into console on the page)</p>
       <textarea readonly v-model="backup"></textarea>
       <button @click="download">Download Backup</button>
+      <div id="notifications">
+        <div v-for="notification in notifications">
+          <span :class="notification.color">{{ notification.text }}</span>
+          <button>×</button>
+        </div>
+      </div>
     </div>
   </body>
   <script src="js/index.min.js"></script>

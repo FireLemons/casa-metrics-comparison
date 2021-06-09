@@ -49,6 +49,7 @@ const app = new Vue({
     meta: {
       'last updated': new Date()
     },
+    notifications: [],
     orgs: [
       {
         'name': 'Prince George',
@@ -163,6 +164,28 @@ const app = new Vue({
         })
 
         this.requests[metricName] = 'loaded'
+      })
+    },
+
+    notify: function (level, message) {
+      let color, prefix
+
+      switch (level) {
+        case 'error':
+          color = 'red-text'
+          prefix = 'ERROR:'
+          break;
+        case 'info':
+          prefix = 'INFO:'
+          break;
+        default:
+          console.log(new RangeError(`Undefined notification level: ${level}`))
+          break;
+      }
+
+      this.notifications.push({
+        color: color,
+        text: `${prefix} ${message}`
       })
     },
 
