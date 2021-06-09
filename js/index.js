@@ -45,6 +45,7 @@ function getJSON (url) {
 const app = new Vue({
   el: '#app',
   data: {
+    clearLocalStorageCounter: 4,
     global: {
       'Total Hours in Case Contacts': { savedValue: 0, newValue: 0}
     },
@@ -87,6 +88,16 @@ const app = new Vue({
       const textarea = document.querySelector('textarea')
       textarea.style.height = `${textarea.scrollHeight}px`
       return `localStorage.setItem('metrics', JSON.stringify(${JSON.stringify(this.saveData, null, 2)}))`
+    },
+
+    clearLocalStorageText: function () {
+      if (this.clearLocalStorageCounter === 4) {
+        return 'Clear Local Storage'
+      } else if (this.clearLocalStorageCounter === 0) {
+        return `Click 1 more time to clear local storage`
+      } else {
+        return `Click ${this.clearLocalStorageCounter + 1} more times to clear local storage`
+      }
     },
 
     diffs: function () {
@@ -200,6 +211,17 @@ const app = new Vue({
         color: color,
         text: `${prefix} ${message}`
       })
+    },
+
+    // Decrements safety counter if counter >= 1 otherwise clears localStorage and reset the counter
+    onClickClearStorage: function () {
+      if (this.clearLocalStorageCounter > 0) {
+        this.clearLocalStorageCounter--
+      } else {
+        localStorage.removeItem('metrics')
+        this.notify('info', 'Local Storage Cleared')
+        this.clearLocalStorageCounter = 4
+      }
     },
 
     // Sets the saved metrics as the current metrics
