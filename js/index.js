@@ -25,14 +25,16 @@ function getJSON (url) {
         if (this.status === 200) {
           resolve(JSON.parse(this.responseText))
         } else {
-          console.error(`Request to ${url} Failed`)
+          reject(`Request to ${url} Failed`)
+          console.error(`Status code: ${this.status}`)
         }
       }
     }
 
     request.onerror = function () {
-      console.error(`Request to ${url} Failed`)
-      console.error(xmlHTTP.responseText)
+      reject(`Request to ${url} Failed`)
+      console.error('Request Response:')
+      console.error(request.responseText)
     }
 
     request.open("get", url, true);
@@ -149,6 +151,9 @@ const app = new Vue({
 
         this.requests[metricName] = 'loaded'
       })
+      .catch((error) => {
+        this.notify('error', error)
+      })
     },
 
     // Handles updating an org metric where the data is an array of elements in the form [org, metric value]
@@ -165,8 +170,16 @@ const app = new Vue({
 
         this.requests[metricName] = 'loaded'
       })
+      .catch((error) => {
+        this.notify('error', error)
+      })
     },
 
+    // Displays a dismissable toast notification
+    //   @param {string} level The logging level of the message
+    //     error Failures
+    //     info  General Information
+    //   @param {string} message The message to be displayed
     notify: function (level, message) {
       let color, prefix
 
@@ -260,6 +273,9 @@ const app = new Vue({
       this.requests['Accepted Invitations'] = 'loaded'
       this.requests['Unaccepted Invitations'] = 'loaded'
     })
+    .catch((error) => {
+      this.notify('error', error)
+    })
 
     getJSON('https://data.heroku.com/dataclips/ahvopfhogmvuccdzdnncmwlioidd.json')
     .then((data) => {
@@ -272,6 +288,9 @@ const app = new Vue({
 
       this.requests['Users Who Have Added Case Contacts in Last 2 Weeks'] = 'loaded'
       this.requests['Case Contact Count in Last 2 Weeks'] = 'loaded'
+    })
+    .catch((error) => {
+      this.notify('error', error)
     })
   }
 })
