@@ -62,9 +62,9 @@
       <textarea readonly v-model="backup"></textarea>
       <button @click="download">Download Backup</button>
       <div id="notifications">
-        <div v-for="notification in notifications">
+        <div v-for="(notification, index) in notifications">
           <span :class="notification.color">{{ notification.text }}</span>
-          <button>×</button>
+          <button @click="notifications.splice(index, 1)">×</button>
         </div>
       </div>
     </div>
