@@ -47,7 +47,10 @@ const app = new Vue({
   data: {
     clearLocalStorageCounter: 4,
     global: {
-      'Total Hours in Case Contacts': { savedValue: 0, newValue: 0}
+      'Average Note Length(characters)': { savedValue: 0, newValue: 0 },
+      'Number of Case Contacts With Notes': { savedValue: 0, newValue: 0 },
+      'Number of Case Contacts Without Notes': { savedValue: 0, newValue: 0 },
+      'Total Hours in Case Contacts': { savedValue: 0, newValue: 0 }
     },
     meta: {
       'last updated': new Date()
@@ -310,6 +313,26 @@ const app = new Vue({
 
       this.requests['Users Who Have Added Case Contacts in Last 2 Weeks'] = 'loaded'
       this.requests['Case Contact Count in Last 2 Weeks'] = 'loaded'
+    })
+    .catch((error) => {
+      this.notify('error', error)
+    })
+
+
+    getJSON('https://data.heroku.com/dataclips/offxulwauuaqdjxviyugdqaygexw.json')
+    .then((data) => {
+      data.values.forEach((val) => {
+        if (val[0]) {
+          this.global['Number of Case Contacts With Notes'].newValue = val[3]
+          this.global['Average Note Length(characters)'].newValue = Math.round(val[2])
+        } else {
+          this.global['Number of Case Contacts Without Notes'].newValue = val[3]
+        }
+
+        this.requests['Average Note Length(characters)'] = 'loaded'
+        this.requests['Number of Case Contacts With Notes'] = 'loaded'
+        this.requests['Number of Case Contacts Without Notes'] = 'loaded'
+      })
     })
     .catch((error) => {
       this.notify('error', error)
