@@ -152,17 +152,23 @@ const app = new Vue({
 
     // Handles updating an org metric where the data is an array of elements in the form [org, metric value]
     //   @param {string} url The url of the updated metric JSON data
-    //   @param {string} metricName The key of the metric to be updated
-    handleSimpleOrgMetric: function (url, metricName) {
+    //   @param {string(s)...} The name(s) of the metric(s) to be updated in the same order they would appear in the row recieved
+    handleSimpleOrgMetric: function (url) {
+      let metrics = Array.prototype.slice.call(arguments, 1)
+
       getJSON(url)
       .then((data) => {
         data.values.forEach((val) => {
           if (this.orgs[val[0] - 1]) {
-            this.updateMetric(metricName, val[0] - 1, val[1])
+            metrics.forEach((metric, i) => {
+              this.updateMetric(metric, val[0] - 1, val[i + 1])
+            })
           }
         })
 
-        this.requests[metricName] = 'loaded'
+        metrics.forEach((metric, i) => {
+          this.requests[metric] = 'loaded'
+        })
       })
       .catch((error) => {
         this.notify('error', error)
@@ -232,7 +238,7 @@ const app = new Vue({
   },
   created: function () {
     const defaultMetrics = {}
-    const orgMetrics = ['Accepted Invitations', 'Unaccepted Invitations', 'Cases With Mandates', 'Case Contact Count', 'Case Contact Count in Last 2 Weeks', 'Users Who Have Added Case Contacts in Last 2 Weeks', 'Notification Count', 'Volunteers Assigned to Supervisors']
+    const orgMetrics = ['Accepted Invitations', 'Unaccepted Invitations', 'Cases With Mandates', 'Case Contact Count', 'Case Contact Count in Last 2 Weeks', 'Users Who Have Added Case Contacts in Last 2 Weeks', 'Notification Count', 'Percent of Notifications Read', 'Volunteers Assigned to Supervisors']
     const savedData = JSON.parse(localStorage.getItem('metrics'))
 
     // Construct default metrics object
@@ -274,9 +280,10 @@ const app = new Vue({
   mounted: function () {
     // Fetch Current Metric Data
     this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/idfolumrbaubogbmewdoeyahhdtj.json', 'Case Contact Count')
-    this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/ymbdlyldhiiqcmsslbjfjdjmzwco.json', 'Volunteers Assigned to Supervisors')
-    this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/xsikhducnqfdrmfcntvdhtehuuwp.json', 'Notification Count')
     this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/fairemyutljnkjgwldlaqtpecvvt.json', 'Cases With Mandates')
+    this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/ahvopfhogmvuccdzdnncmwlioidd.json', 'Users Who Have Added Case Contacts in Last 2 Weeks', 'Case Contact Count in Last 2 Weeks')
+    this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/ymbdlyldhiiqcmsslbjfjdjmzwco.json', 'Volunteers Assigned to Supervisors')
+    this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/xsikhducnqfdrmfcntvdhtehuuwp.json', 'Notification Count', 'Percent of Notifications Read')
     this.handleGlobalMetric('https://data.heroku.com/dataclips/vgblwvzhclatsdxzdbihypqulckq.json', 'Total Hours in Case Contacts')
 
     getJSON('https://data.heroku.com/dataclips/ibzctyhepsfsgpiobxrltuhejxds.json')
@@ -291,22 +298,6 @@ const app = new Vue({
 
       this.requests['Accepted Invitations'] = 'loaded'
       this.requests['Unaccepted Invitations'] = 'loaded'
-    })
-    .catch((error) => {
-      this.notify('error', error)
-    })
-
-    getJSON('https://data.heroku.com/dataclips/ahvopfhogmvuccdzdnncmwlioidd.json')
-    .then((data) => {
-      data.values.forEach((val) => {
-        if (this.orgs[val[0] - 1]) {
-          this.orgs[val[0] - 1].metrics['Users Who Have Added Case Contacts in Last 2 Weeks'].newValue = val[1]
-          this.orgs[val[0] - 1].metrics['Case Contact Count in Last 2 Weeks'].newValue = val[2]
-        }
-      })
-
-      this.requests['Users Who Have Added Case Contacts in Last 2 Weeks'] = 'loaded'
-      this.requests['Case Contact Count in Last 2 Weeks'] = 'loaded'
     })
     .catch((error) => {
       this.notify('error', error)
