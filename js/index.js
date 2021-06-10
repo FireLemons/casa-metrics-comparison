@@ -1,5 +1,3 @@
-const orgMetrics = ['Accepted Invitations', 'Unaccepted Invitations', 'Cases With Mandates', 'Case Contact Count', 'Case Contact Count in Last 2 Weeks', 'Users Who Have Added Case Contacts in Last 2 Weeks', 'Notification Count', 'Volunteers Assigned to Supervisors']
-
 // Writes text to a file and prompts to save it
 //   @param {string} content  The contents of the file to be created
 //   @param {string} filename The default name of the file to be generated
@@ -232,9 +230,10 @@ const app = new Vue({
       }
     }
   },
-  mounted: function () {
-    const savedData = JSON.parse(localStorage.getItem('metrics'))
+  created: function () {
     const defaultMetrics = {}
+    const orgMetrics = ['Accepted Invitations', 'Unaccepted Invitations', 'Cases With Mandates', 'Case Contact Count', 'Case Contact Count in Last 2 Weeks', 'Users Who Have Added Case Contacts in Last 2 Weeks', 'Notification Count', 'Volunteers Assigned to Supervisors']
+    const savedData = JSON.parse(localStorage.getItem('metrics'))
 
     // Construct default metrics object
     orgMetrics.forEach((metricName) => {
@@ -271,6 +270,8 @@ const app = new Vue({
       this.$set(this.requests, metric, 'unloaded')
     }
 
+  },
+  mounted: function () {
     // Fetch Current Metric Data
     this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/idfolumrbaubogbmewdoeyahhdtj.json', 'Case Contact Count')
     this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/ymbdlyldhiiqcmsslbjfjdjmzwco.json', 'Volunteers Assigned to Supervisors')
