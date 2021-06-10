@@ -1,3 +1,5 @@
+const orgMetrics = ['Accepted Invitations', 'Unaccepted Invitations', 'Cases With Mandates', 'Case Contact Count', 'Case Contact Count in Last 2 Weeks', 'Users Who Have Added Case Contacts in Last 2 Weeks', 'Notification Count', 'Volunteers Assigned to Supervisors']
+
 // Writes text to a file and prompts to save it
 //   @param {string} content  The contents of the file to be created
 //   @param {string} filename The default name of the file to be generated
@@ -58,30 +60,10 @@ const app = new Vue({
     notifications: [],
     orgs: [
       {
-        'name': 'Prince George',
-        'metrics' : {
-          'Accepted Invitations'                              : {savedValue: 0, newValue: 0},
-          'Unaccepted Invitations'                            : {savedValue: 0, newValue: 0},
-          'Cases With Mandates'                               : {savedValue: 0, newValue: 0},
-          'Case Contact Count'                                : {savedValue: 0, newValue: 0},
-          'Case Contact Count in Last 2 Weeks'                : {savedValue: 0, newValue: 0},
-          'Users Who Have Added Case Contacts in Last 2 Weeks': {savedValue: 0, newValue: 0},
-          'Notification Count'                                : {savedValue: 0, newValue: 0},
-          'Volunteers Assigned to Supervisors'                : {savedValue: 0, newValue: 0}
-        }
+        'name': 'Prince George'
       }, 
       {
-        'name': 'Montgomery',
-        'metrics': {
-          'Accepted Invitations'                              : {savedValue: 0, newValue: 0},
-          'Unaccepted Invitations'                            : {savedValue: 0, newValue: 0},
-          'Cases With Mandates'                               : {savedValue: 0, newValue: 0},
-          'Case Contact Count'                                : {savedValue: 0, newValue: 0},
-          'Case Contact Count in Last 2 Weeks'                : {savedValue: 0, newValue: 0},
-          'Users Who Have Added Case Contacts in Last 2 Weeks': {savedValue: 0, newValue: 0},
-          'Notification Count'                                : {savedValue: 0, newValue: 0},
-          'Volunteers Assigned to Supervisors'                : {savedValue: 0, newValue: 0}
-        }
+        'name': 'Montgomery'
       }
     ],
     requests: {}
@@ -250,8 +232,19 @@ const app = new Vue({
       }
     }
   },
-  mounted: function() {
+  mounted: function () {
     const savedData = JSON.parse(localStorage.getItem('metrics'))
+    const defaultMetrics = {}
+
+    // Construct default metrics object
+    orgMetrics.forEach((metricName) => {
+      defaultMetrics[metricName] = { savedValue: 0, newValue: 0 }
+    })
+
+    // Fill in metrics for each org
+    this.orgs.forEach((org) => {
+      this.$set(org, 'metrics', JSON.parse(JSON.stringify(defaultMetrics)))
+    })
 
     // Load Save
     if (savedData) {
@@ -317,7 +310,6 @@ const app = new Vue({
     .catch((error) => {
       this.notify('error', error)
     })
-
 
     getJSON('https://data.heroku.com/dataclips/offxulwauuaqdjxviyugdqaygexw.json')
     .then((data) => {
