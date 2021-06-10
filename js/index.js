@@ -133,7 +133,7 @@ const app = new Vue({
       downloadToTextFile(this.backup, 'backup.js');
     },
 
-    // Handles updating a global metric
+    // Handles updating a global metric where the data is an array of elements in the form [org, metric value]
     //   @param {string} url The url of the updated metric JSON data
     //   @param {string} metricName The key of the metric to be updated
     handleGlobalMetric: function (url, metricName) {
@@ -150,7 +150,7 @@ const app = new Vue({
       })
     },
 
-    // Handles updating an org metric where the data is an array of elements in the form [org, metric value]
+    // Handles updating an org metric where the data is an array of elements in the form [org, metric value(s)...]
     //   @param {string} url The url of the updated metric JSON data
     //   @param {string(s)...} The name(s) of the metric(s) to be updated in the same order they would appear in the row recieved
     handleSimpleOrgMetric: function (url) {
@@ -292,7 +292,7 @@ const app = new Vue({
         let metric = val[1] ? 'Accepted Invitations' : 'Unaccepted Invitations'
 
         if (this.orgs[val[0] - 1]) {
-          this.orgs[val[0] - 1].metrics[metric].newValue = val[2]
+          this.updateMetric(metric, val[0] - 1, val[2])
         }
       })
 
@@ -307,10 +307,10 @@ const app = new Vue({
     .then((data) => {
       data.values.forEach((val) => {
         if (val[0]) {
-          this.global['Number of Case Contacts With Notes'].newValue = val[3]
-          this.global['Average Note Length(characters)'].newValue = Math.round(val[2])
+          this.updateMetric('Number of Case Contacts With Notes', 'global', val[3])
+          this.updateMetric('Average Note Length(characters)', 'global', val[2])
         } else {
-          this.global['Number of Case Contacts Without Notes'].newValue = val[3]
+          this.updateMetric('Number of Case Contacts Without Notes', 'global', val[3])
         }
 
         this.requests['Average Note Length(characters)'] = 'loaded'
