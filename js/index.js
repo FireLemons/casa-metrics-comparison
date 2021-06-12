@@ -215,6 +215,8 @@ const app = new Vue({
 
     // Sets the saved metrics as the current metrics
     save: function () {
+      this.meta['last updated'] = new Date()
+
       this.orgs.map((org) => org.metrics).concat(this.global).forEach((metrics) => {
         for(metric in metrics) {
           metrics[metric].savedValue = metrics[metric].newValue
