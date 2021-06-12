@@ -21,6 +21,10 @@ body {
     width: max-content;
     margin: 0 auto 2rem auto;
 
+    &>* {
+      margin: 0.25rem auto;
+    }
+
     button {
       background-color: var(--background-color-light);
       border: 0;
@@ -74,7 +78,6 @@ body {
 
     #global-table {
       background-color: var(--background-color-light);
-      margin: 0.25rem auto;
       padding: 1rem;
       width: calc(100% - .5rem);
 
@@ -126,20 +129,17 @@ body {
     #org-tables {
       display: flex;
       justify-content: center;
+      margin-top: 0.5rem;
 
       &>div{
         background-color: var(--background-color-light);
-        margin: 0.25rem;
+        margin: 0 0.25rem;
         padding: 1rem;
 
         h3{
           padding-bottom: .5rem;
         }
       }
-    }
-
-    #org-tables + button {
-      margin: .25rem auto;
     }
   }
 }
