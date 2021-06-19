@@ -240,7 +240,7 @@ const app = new Vue({
   },
   created: function () {
     const defaultMetrics = {}
-    const orgMetrics = ['Accepted Invitations', 'Unaccepted Invitations', 'Cases With Mandates', 'Case Contact Count', 'Case Contact Count in Last 2 Weeks', 'Users Who Have Added Case Contacts in Last 2 Weeks', 'Notification Count', 'Percent of Notifications Read', 'Volunteers Assigned to Supervisors']
+    const orgMetrics = ['Accepted Invitations', 'Unaccepted Invitations', 'Cases With Mandates', 'Case Contact Count', 'Case Contact Count in Last 2 Weeks', 'Users Who Have Added Case Contacts in Last 2 Weeks', 'Notification Count', 'Percent of Notifications Read', 'Users Logged in Within Last Month', 'Users Not Logged in Within Last Month', 'Volunteers Assigned to Supervisors']
     const savedData = JSON.parse(localStorage.getItem('metrics'))
 
     // Construct default metrics object
@@ -318,6 +318,26 @@ const app = new Vue({
         this.requests['Average Note Length(characters)'] = 'loaded'
         this.requests['Number of Case Contacts With Notes'] = 'loaded'
         this.requests['Number of Case Contacts Without Notes'] = 'loaded'
+      })
+    })
+    .catch((error) => {
+      this.notify('error', error)
+    })
+
+    getJSON('https://data.heroku.com/dataclips/zireiafwyjkquxmfuhmlsvlihqbt.json')
+    .then((data) => {
+      data.values.forEach((val) => {
+        const orgID = val[0] - 1
+        if (this.orgs[orgID]) {
+          if (val[1]) {
+            this.updateMetric('Users Logged in Within Last Month', orgID, val[2])
+          } else {
+            this.updateMetric('Users Not Logged in Within Last Month', orgID, val[2])
+          }
+        }
+
+        this.requests['Users Logged in Within Last Month'] = 'loaded'
+        this.requests['Users Not Logged in Within Last Month'] = 'loaded'
       })
     })
     .catch((error) => {
