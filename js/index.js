@@ -77,8 +77,9 @@ const app = new Vue({
   },
   computed: {
     backup: function () {
-      const textarea = document.querySelector('textarea')
-      textarea.style.height = `${textarea.scrollHeight}px`
+      const backupScriptElement = document.getElementById('backup-script')
+      //textarea.style.height = `${backupScriptElement.abs(scrollHeight}px`
+
       return `localStorage.setItem('metrics', JSON.stringify(${JSON.stringify(this.saveData, null, 2)}))`
     },
 
@@ -225,7 +226,7 @@ const app = new Vue({
     save: function () {
       this.meta['last updated'] = new Date()
 
-      this.orgs.map((org) => org.metrics).concat(this.global).forEach((metrics) => {
+      Object.values(this.orgs).map((org) => org.metrics).concat(this.global).forEach((metrics) => {
         for(metric in metrics) {
           metrics[metric].savedValue = metrics[metric].newValue
         }
@@ -273,12 +274,14 @@ const app = new Vue({
         this.$set(this.orgs[orgId], 'metrics', JSON.parse(JSON.stringify(defaultMetrics)))
       }
 
-      this.orgs.forEach((org, i) => {
-        this.orgs[i] = {
+      for (const orgId in this.orgs) {
+        const org = this.orgs[orgId]
+
+        this.orgs[orgId] = {
           'name': org.name,
-          'metrics': Object.assign(this.orgs[i].metrics, savedData.orgs[i].metrics)
+          'metrics': Object.assign(this.orgs[orgId].metrics, savedData.orgs[orgId].metrics)
         }
-      })
+      }
     }
 
     // Generate JSON Requests Tracking List
@@ -286,7 +289,7 @@ const app = new Vue({
       this.$set(this.requests, metric, 'unloaded')
     }
 
-    for (metric in this.orgs[0].metrics) {
+    for (metric in this.orgs[1].metrics) {
       this.$set(this.requests, metric, 'unloaded')
     }
 

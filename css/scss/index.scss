@@ -67,12 +67,14 @@ body {
       }
     }
 
-    textarea {
+    #backup-script {
       background-color: var(--background-color-light);
       border: 0;
       color: var(--foreground-color);
       font-family: "Ubuntu Mono";
       padding: 1rem;
+      text-align: left;
+      white-space: pre;
       width: calc(100% - .5rem);
     }
 

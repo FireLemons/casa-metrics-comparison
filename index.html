@@ -59,7 +59,7 @@
       <button class="red-text" @click="onClickClearStorage">{{ clearLocalStorageText }}</button>
       <h2>Backup Script</h2>
       <p>(paste into console on the page)</p>
-      <textarea readonly v-model="backup"></textarea>
+      <p id="backup-script"> {{ backup }} </p>
       <button @click="download">Download Backup</button>
       <div id="notifications">
         <div v-for="(notification, index) in notifications">
