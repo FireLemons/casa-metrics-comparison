@@ -56,14 +56,23 @@ const app = new Vue({
       'last updated': new Date()
     },
     notifications: [],
-    orgs: [
-      {
+    orgs: {
+      1: {
         'name': 'Prince George'
       }, 
-      {
+      2: {
         'name': 'Montgomery'
+      },
+      4: {
+        'name': 'Howard'
+      },
+      5: {
+        'name': 'Anne Arundel'
+      },
+      6: {
+        'name': 'Union'
       }
-    ],
+    },
     requests: {}
   },
   computed: {
@@ -86,11 +95,10 @@ const app = new Vue({
     diffs: function () {
       const orgs = {}
 
-      this.orgs.forEach((org) => {
-        if (org) {
-          orgs[org.name] = this.diffMetrics(org.metrics)
-        }
-      })
+      for (const orgId in this.orgs) {
+        const org = this.orgs[orgId]
+        orgs[org.name] = this.diffMetrics(org.metrics)
+      }
 
       const globalDiff = this.diffMetrics(this.global)
 
@@ -159,9 +167,9 @@ const app = new Vue({
       getJSON(url)
       .then((data) => {
         data.values.forEach((val) => {
-          if (this.orgs[val[0] - 1]) {
+          if (this.orgs[val[0]]) {
             metrics.forEach((metric, i) => {
-              this.updateMetric(metric, val[0] - 1, val[i + 1])
+              this.updateMetric(metric, val[0], val[i + 1])
             })
           }
         })
@@ -249,9 +257,9 @@ const app = new Vue({
     })
 
     // Fill in metrics for each org
-    this.orgs.forEach((org) => {
-      this.$set(org, 'metrics', JSON.parse(JSON.stringify(defaultMetrics)))
-    })
+    for (const orgId in this.orgs) {
+      this.$set(this.orgs[orgId], 'metrics', JSON.parse(JSON.stringify(defaultMetrics)))
+    }
 
     // Load Save
     if (savedData) {
@@ -259,6 +267,10 @@ const app = new Vue({
 
       this.meta = {
         'last updated': new Date(savedData.meta['last updated'])
+      }
+
+      for (const orgId in this.orgs) {
+        this.$set(this.orgs[orgId], 'metrics', JSON.parse(JSON.stringify(defaultMetrics)))
       }
 
       this.orgs.forEach((org, i) => {
