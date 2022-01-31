@@ -285,11 +285,11 @@ const app = new Vue({
     }
 
     // Generate JSON Requests Tracking List
-    for (metric in this.global) {
+    for (const metric in this.global) {
       this.$set(this.requests, metric, 'unloaded')
     }
 
-    for (metric in this.orgs[1].metrics) {
+    for (const metric in this.orgs[1].metrics) {
       this.$set(this.requests, metric, 'unloaded')
     }
 
