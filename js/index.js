@@ -130,7 +130,7 @@ const app = new Vue({
     diffMetrics: function (metrics) {
       const diff = {}
 
-      for (label in metrics) {
+      for (const label in metrics) {
         diff[label] = metrics[label].newValue - metrics[label].savedValue
       }
 
