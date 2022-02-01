@@ -167,6 +167,7 @@ const app = new Vue({
 
       getJSON(url)
       .then((data) => {
+        console.log(data)
         data.values.forEach((val) => {
           if (this.orgs[val[0]]) {
             metrics.forEach((metric, i) => {
@@ -306,10 +307,11 @@ const app = new Vue({
     getJSON('https://data.heroku.com/dataclips/ibzctyhepsfsgpiobxrltuhejxds.json')
     .then((data) => {
       data.values.forEach((val) => {
-        let metric = val[1] ? 'Accepted Invitations' : 'Unaccepted Invitations'
+        const metric = val[1] ? 'Accepted Invitations' : 'Unaccepted Invitations'
+        const orgId = val[0]
 
-        if (this.orgs[val[0] - 1]) {
-          this.updateMetric(metric, val[0] - 1, val[2])
+        if (this.orgs[orgId]) {
+          this.updateMetric(metric, orgId, val[2])
         }
       })
 
@@ -342,7 +344,8 @@ const app = new Vue({
     getJSON('https://data.heroku.com/dataclips/zireiafwyjkquxmfuhmlsvlihqbt.json')
     .then((data) => {
       data.values.forEach((val) => {
-        const orgID = val[0] - 1
+        const orgID = val[0]
+
         if (this.orgs[orgID]) {
           if (val[1]) {
             this.updateMetric('Users Logged in Within Last Month', orgID, val[2])
