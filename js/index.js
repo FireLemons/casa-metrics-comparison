@@ -297,14 +297,14 @@ const app = new Vue({
   },
   mounted: function () {
     // Fetch Current Metric Data
-    this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/idfolumrbaubogbmewdoeyahhdtj.json', 'Case Contact Count')
-    this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/fairemyutljnkjgwldlaqtpecvvt.json', 'Cases With Mandates')
-    this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/ahvopfhogmvuccdzdnncmwlioidd.json', 'Users Who Have Added Case Contacts in Last 2 Weeks', 'Case Contact Count in Last 2 Weeks')
-    this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/ymbdlyldhiiqcmsslbjfjdjmzwco.json', 'Volunteers Assigned to Supervisors')
-    this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/xsikhducnqfdrmfcntvdhtehuuwp.json', 'Notification Count', 'Percent of Notifications Read')
-    this.handleGlobalMetric('https://data.heroku.com/dataclips/vgblwvzhclatsdxzdbihypqulckq.json', 'Total Hours in Case Contacts')
+    this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/oejyfdxobnqiqjgldwmgnfudhbrf.json', 'Case Contact Count')
+    this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/wanbhdjvqktnjeckahjwjtcuywbr.json', 'Cases With Mandates')
+    this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/kvubhxmiogmpycirvdzihzyvueoc.json', 'Users Who Have Added Case Contacts in Last 2 Weeks', 'Case Contact Count in Last 2 Weeks')
+    this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/evchhyaxvjdlhobejerjegbemxka.json', 'Volunteers Assigned to Supervisors')
+    this.handleSimpleOrgMetric('https://data.heroku.com/dataclips/tkretddznqxfjrmivlnafppuvpyk.json', 'Notification Count', 'Percent of Notifications Read')
+    this.handleGlobalMetric('https://data.heroku.com/dataclips/qqcjvrlqqgvrtavpntxisxsqcejh.json', 'Total Hours in Case Contacts')
 
-    getJSON('https://data.heroku.com/dataclips/ibzctyhepsfsgpiobxrltuhejxds.json')
+    getJSON('https://data.heroku.com/dataclips/xlrwochtjcmhitfjdwktnewxzxzc.json')
     .then((data) => {
       data.values.forEach((val) => {
         const metric = val[1] ? 'Accepted Invitations' : 'Unaccepted Invitations'
@@ -322,7 +322,7 @@ const app = new Vue({
       this.notify('error', error)
     })
 
-    getJSON('https://data.heroku.com/dataclips/offxulwauuaqdjxviyugdqaygexw.json')
+    getJSON('https://data.heroku.com/dataclips/zdjjrodqghbvqlprxjlzenmwlkib.json')
     .then((data) => {
       data.values.forEach((val) => {
         if (val[0]) {
@@ -341,7 +341,7 @@ const app = new Vue({
       this.notify('error', error)
     })
 
-    getJSON('https://data.heroku.com/dataclips/zireiafwyjkquxmfuhmlsvlihqbt.json')
+    getJSON('https://data.heroku.com/dataclips/cnrpfynfwyhiyllaqdihernysrki.json')
     .then((data) => {
       data.values.forEach((val) => {
         const orgID = val[0]
