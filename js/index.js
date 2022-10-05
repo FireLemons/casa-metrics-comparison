@@ -58,7 +58,7 @@ const app = new Vue({
     notifications: [],
     orgs: {
       1: {
-        'name': 'Prince George'
+        'name': 'Prince George\'s'
       }, 
       2: {
         'name': 'Montgomery'
